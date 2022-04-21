@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>在线空调系统能耗评估平台 - 后台管理主页</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-chart-area"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">在线空调系统<br/>能耗评估平台</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('index', username=username) }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>项目主页</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                数据平台
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('profile', username=username) }}">
+                    <i class="fas fa-fw fa-info-circle"></i>
+                    <span>用户资料</span></a>
+            </li>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('building', username=username) }}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>建筑信息</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                HELP
+            </div>
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('guide', username=username) }}">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>使用指南</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-lg-0">
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" href="#principleDiv" id="principle" role="button">
+                                <span class="mr-2 d-none d-lg-inline text-gray-800">原理简介</span>
+                            </a>
+                        </li>
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" href="#referencesDiv" id="references" role="button">
+                                <span class="mr-2 d-none d-lg-inline text-gray-800">参考文献</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Nav Item - School Logo -->
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" target="_blank" href="http://www.yuxiblog.cn/public/example/shengtailab/views/index.html" id="arch_logo">
+                            <img class="img-profile rounded-circle" alt="Laboratory Logo" title="清华大学生态规划与绿色建筑教育部重点实验室"
+                                    src="{{ url_for('static', filename='img/lib_logo2.jpeg') }}">
+                            </a>
+                        </li>
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" target="_blank" href="http://www.thad.com.cn/" id="arch_logo">
+                            <img class="img-profile rounded-circle" alt="THAD Logo" title="清华大学建筑设计研究院有限公司"
+                                    src="{{ url_for('static', filename='img/arch_logo.jpeg') }}">
+                            </a>
+                        </li>
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" target="_blank" href="https://www.tsinghua.edu.cn/" id="uni_logo">
+                            <img class="img-profile rounded-circle" alt="THU Logo" title="清华大学"
+                                    src="{{ url_for('static', filename='img/Tsinghua_University_Logo.svg') }}">
+                            </a>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item nav-link dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="img-profile rounded-circle"
+                                    src="{{ url_for('static', filename='img/avatar/'+user_profile['avatar']) }}">
+                                <span class="mr-2 d-none d-lg-inline text-gray-800 small">&nbsp;&nbsp;{{ username }}</span>
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="{{ url_for('profile', username=username) }}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    个人资料
+                                </a>
+                                <a class="dropdown-item" href="{{ url_for('building', username=username) }}">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    建筑列表
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    用户登出
+                                </a>
+                            </div>
+                        </li>
+                        <li id="jumpItem" class="nav-item nav-link no-arrow">
+                            <a class="nav-link" href="{{ url_for('home', username=username) }}" id="jumpToDashboard" role="button">
+                                <div class="sidebar-brand-icon">
+                                    <i class="fas fa-arrow-circle-right"></i>&nbsp;
+                                </div>
+                                <span class="mr-2 d-none d-lg-inline text-gray-800 small">跳转主页</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div id="principleDiv" class="container-fluid">
+                   <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">原理简介</h1>
+                    </div>
+                    <!-- Basic Card Example -->
+                    <div class="row text-lg">
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h5 class="m-0 font-weight-bold text-primary">特征曲线评价方法</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        基于逐日空调系统能耗强度评价指标，定义参数化的Sigmoid方程为空调系统能耗的特征函数：$$E(t)=\frac{E_1}{1+E^{-k(t-t_0)}} + E_0$$
+                                        定义空调系统能耗评价的特征参数组：E1+E0；E(t=30℃)。<br/>
+                                        使用空调系统能耗特征值参数组，建立了空调系统能耗特征曲线评价方法，利用调研案例数据库的统计数据提出了评价区间图示。<br/>
+                                        <hr/>
+                                        <div class="card-columns">
+                                            <div class="card text-center">
+                                                <img class="card-img-top" alt="长期观测数据特征曲线图示" title="长期观测数据特征曲线图示"
+                                                     src="{{ url_for('static', filename='img/pp-1.png') }}">
+                                                <span class="card-text ">图1 长期观测据特征曲线</span>
+                                            </div>
+                                            <div class="card text-center">
+                                                <img class="card-img-top" alt="空调系统能耗评价区间图示" title="空调系统能耗评价区间图示"
+                                                     src="{{ url_for('static', filename='img/pp-2.png') }}">
+                                                <span class="card-text">图2 空调系统能耗评价区间</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-lg">
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h5 class="m-0 font-weight-bold text-primary">短期测试评价方法</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-columns">
+                                        <div class="text-left">
+                                            <span class="card-text">使用短时间（供冷季里的1-2周即可）空调系统能耗逐日测试数据以及室外日均温度，
+                                                基于调研案例数据库的统计数据，可以使用短期数据的评估方法进行评估，迅速给出评价结果提出短期数据能耗评价区间图示。</span>
+                                        </div>
+                                        <div class="card text-center">
+                                            <img class="card-img-top" alt="空调系统能耗评价区间图示" title="空调系统能耗评价区间图示" src="{{ url_for('static', filename='img/short_term_pic.png') }}">
+                                            <span class="card-text">图3 短期观测数据评价图示</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- /.container-fluid -->
+                </div>
+
+                <div class="align-content-lg-center">
+                    <hr class="col-12"/>
+                </div>
+                <div id="referencesDiv" class="container-fluid">
+                   <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">相关文献资料</h1>
+                    </div>
+                    <!-- Basic Card Example -->
+                    <div class="row text-lg">
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h5 class="m-0 font-weight-bold text-primary">参考文献</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        [1] 赵海湉,林波荣,.一种基于数据驱动的空调系统能耗逐日评价指标[J].暖通空调,2020,50(10):87-93+58.<br/>
+                                        [2] 赵海湉,周政翰,林波荣,.空调系统能耗特征曲线研究及应用[J].暖通空调,2021,51(12):113-118.<br/>
+                                        [3] 赵海湉,林波荣,周政翰. 一种空调系统能耗评估诊断方法及系统[P]. 北京市：CN113028596B,2021-09-28.<br/>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- /.container-fluid -->
+                </div>
+                <!-- End of Page Content -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>版权所有 &copy; 清华大学生态规划与绿色建筑教育部重点实验室<br/>
+                            Copyright &copy; 2021 Tsinghua University. All Rights Reversed.</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">确认登出?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">如果确定要结束本次回话，请点击下方的"登出"按钮。</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
+                    <a class="btn btn-primary" href="{{ url_for('logout') }}">登出</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+          }
+        };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</body>
+
+</html>

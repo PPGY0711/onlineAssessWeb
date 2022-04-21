@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线空调系统能耗评估平台 - 用户指南</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet"
+        type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-chart-area"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">在线空调系统<br />能耗评估平台</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index', username=username) }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>项目主页</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                数据平台
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('profile', username=username) }}">
+                    <i class="fas fa-fw fa-info-circle"></i>
+                    <span>用户资料</span></a>
+            </li>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('building', username=username) }}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>建筑信息</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                HELP
+            </div>
+            <!-- Nav Item - Tables -->
+            <li class="nav-item active">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>使用指南</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Navbar -->
+{#                    <ul class="navbar-nav ml-lg-0">#}
+{#                        <li class="nav-item nav-link no-arrow">#}
+{#                            <a class="nav-link" href="#principleDiv" id="principle" role="button">#}
+{#                                <span class="mr-2 d-none d-lg-inline text-gray-800">原理简介</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="nav-item nav-link no-arrow">#}
+{#                            <a class="nav-link" href="#referencesDiv" id="references" role="button">#}
+{#                                <span class="mr-2 d-none d-lg-inline text-gray-800">参考文献</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                    </ul>#}
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Nav Item - School Logo -->
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" target="_blank"
+                                href="http://www.yuxiblog.cn/public/example/shengtailab/views/index.html"
+                                id="arch_logo">
+                                <img class="img-profile rounded-circle" alt="Laboratory Logo"
+                                    title="清华大学生态规划与绿色建筑教育部重点实验室"
+                                    src="{{ url_for('static', filename='img/lib_logo2.jpeg') }}">
+                            </a>
+                        </li>
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" target="_blank" href="http://www.thad.com.cn/" id="arch_logo">
+                                <img class="img-profile rounded-circle" alt="THAD Logo" title="清华大学建筑设计研究院有限公司"
+                                    src="{{ url_for('static', filename='img/arch_logo.jpeg') }}">
+                            </a>
+                        </li>
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" target="_blank" href="https://www.tsinghua.edu.cn/" id="uni_logo">
+                                <img class="img-profile rounded-circle" alt="THU Logo" title="清华大学"
+                                    src="{{ url_for('static', filename='img/Tsinghua_University_Logo.svg') }}">
+                            </a>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item nav-link dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="img-profile rounded-circle"
+                                    src="{{ url_for('static', filename='img/avatar/'+user_profile['avatar']) }}">
+                                <span class="mr-2 d-none d-lg-inline text-gray-800 small">&nbsp;&nbsp;{{ username
+                                    }}</span>
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="{{ url_for('profile', username=username) }}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    个人资料
+                                </a>
+                                <a class="dropdown-item" href="{{ url_for('building', username=username) }}">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    建筑列表
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    用户登出
+                                </a>
+                            </div>
+                        </li>
+                        <li id="jumpItem" class="nav-item nav-link no-arrow">
+                            <a class="nav-link" href="{{ url_for('home', username=username) }}" id="jumpToDashboard"
+                                role="button">
+                                <div class="sidebar-brand-icon">
+                                    <i class="fas fa-arrow-circle-right"></i>&nbsp;
+                                </div>
+                                <span class="mr-2 d-none d-lg-inline text-gray-800 small">跳转主页</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div id="principleDiv" class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">使用指南</h1>
+                    </div>
+                    <div class="row text-lg">
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h5 class="m-0 font-weight-bold text-primary">建筑能耗信息上传步骤</h5>
+                                </div>
+                                <div class="card-body">
+                                    <ol class="mb-4">
+                                        <li>用户登陆成功后，点击网页左侧“用户资料”选项，进入用户资料页面。</li>
+                                        <li>进入用户资料页面后，点击“创建建筑实例”选项。</li>
+                                        <li>进入创建建筑实例界面后，输入用户需评估的建筑的相关信息，输入完毕后点击确认，会弹出“新建建筑信息成功”的对话框。</li>
+                                        <li>新建建筑信息完毕后，点击网页左侧“建筑信息”选项。</li>
+                                        <li>进入建筑信息页面后，点击“上传观测数据”选项，打开该选项后点击“上传文件”选项，选择将要上传的数据文件，点击确认后即可上传。</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-lg">
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h5 class="m-0 font-weight-bold text-primary">能耗数据文件上传规范</h5>
+                                </div>
+                                <div class="card-body">
+                                    <ol class="mb-4">
+                                        <li>上传文件的格式必须为.xls/.xlsx/.csv。</li>
+                                        <li>文件第一行可以有表头，即可以有数据的参数名称，也可以直接填放数据。</li>
+                                        <li>上传的数据须尽量避免出现空值和非数字形式的字符，否则可能会出现下载报告失败的情况。</li>
+                                        <li>上传数据文件需满足第一列为日均温度数据，第二列为空调系统逐日能耗数据。</li>
+                                        <li>如有所评估建筑的逐日单位面积内热源能耗数据作为空调系统能耗数据修正参考，可将内热源能耗数据作为第三列数据加入所上传数据的文件中进行上传。</li>
+                                        <li>数据文件模板（<a href="{{ url_for('static', filename='example/no_fix.xlsx')}}"  download="无内热源能耗模板.txt">无内热源能耗</a>、
+                                            <a href="{{ url_for('static', filename='example/has_fix.xlsx') }}"  download="含内热源能耗模板.txt" >含内热源能耗</a>）。</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-lg">
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h5 class="m-0 font-weight-bold text-primary">用户须知</h5>
+                                </div>
+                                <div class="card-body">
+                                    <ol class="mb-4">
+                                        <li>观测数据少于60条为短期观测数据，多于60条为长期观测数据。</li>
+                                        <li>用户上传数据会被进行实时分析，文件上传完毕后即可得到最终报告。</li>
+                                        <li>如果上传的数据文件包含内热源能耗数据，系统会自动对空调能耗进行修正，最终报告中的内容为修正后的结果。</li>
+                                        <li>最终报告包含所上传数据的拟合公式和拟合结果图片，以及对该建筑能耗评估的结论和建议。</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <!-- Footer -->
+                    <footer class="sticky-footer bg-white">
+                        <div class="container my-auto">
+                            <div class="copyright text-center my-auto">
+                                <span>版权所有 &copy; 清华大学生态规划与绿色建筑教育部重点实验室<br />
+                                    Copyright &copy; 2021 Tsinghua University. All Rights Reversed.</span>
+                            </div>
+                        </div>
+                    </footer>
+                    <!-- End of Footer -->
+
+                </div>
+                <!-- End of Content Wrapper -->
+
+            </div>
+            <!-- End of Page Wrapper -->
+
+            <!-- Scroll to Top Button-->
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
+
+            <!-- Logout Modal-->
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">确认登出?</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">如果确定要结束本次回话，请点击下方的"登出"按钮。</div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
+                            <a class="btn btn-primary" href="{{ url_for('logout') }}">登出</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bootstrap core JavaScript-->
+            <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+            <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+            <!-- Core plugin JavaScript-->
+            <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+            <!-- Custom scripts for all pages-->
+            <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+            <script>
+                MathJax = {
+                    tex: {
+                        inlineMath: [['$', '$'], ['\\(', '\\)']]
+                    }
+                };
+            </script>
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async
+                src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</body>
+
+</html>

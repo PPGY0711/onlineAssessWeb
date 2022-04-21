@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>在线空调系统能耗评估平台 - {{ username }} 的建筑列表</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/print.css') }}" rel="stylesheet" media="print">
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-chart-area"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">在线空调系统<br/>能耗评估平台</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index', username=username) }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>项目主页</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                数据平台
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('profile', username=username) }}">
+                    <i class="fas fa-fw fa-info-circle"></i>
+                    <span>用户资料</span></a>
+            </li>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('building', username=username) }}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>建筑信息</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                HELP
+            </div>
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('guide', username=username) }}">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>使用指南</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-lg-0">
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" href="#buildingDiv" id="principle" role="button">
+                                <span class="mr-2 d-none d-lg-inline text-gray-800">建筑信息</span>
+                            </a>
+                        </li>
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" href="#dataListDiv" id="principle" role="button">
+                                <span class="mr-2 d-none d-lg-inline text-gray-800">数据列表</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Nav Item - School Logo -->
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" target="_blank" href="http://www.yuxiblog.cn/public/example/shengtailab/views/index.html" id="arch_logo">
+                            <img class="img-profile rounded-circle" alt="Laboratory Logo" title="清华大学生态规划与绿色建筑教育部重点实验室"
+                                    src="{{ url_for('static', filename='img/lib_logo2.jpeg') }}">
+                            </a>
+                        </li>
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" target="_blank" href="http://www.thad.com.cn/" id="arch_logo">
+                            <img class="img-profile rounded-circle" alt="THAD Logo" title="清华大学建筑设计研究院有限公司"
+                                    src="{{ url_for('static', filename='img/arch_logo.jpeg') }}">
+                            </a>
+                        </li>
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" target="_blank" href="https://www.tsinghua.edu.cn/" id="uni_logo">
+                            <img class="img-profile rounded-circle" alt="THU Logo" title="清华大学"
+                                    src="{{ url_for('static', filename='img/Tsinghua_University_Logo.svg') }}">
+                            </a>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item nav-link dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="img-profile rounded-circle"
+                                    src="{{ url_for('static', filename='img/avatar/'+user_profile['avatar']) }}">
+                                <span class="mr-2 d-none d-lg-inline text-gray-800 small">&nbsp;&nbsp;{{ username }}</span>
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="{{ url_for('profile', username=username) }}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    用户资料
+                                </a>
+                                <a class="dropdown-item" href="{{ url_for('building', username=username) }}">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    建筑列表
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    用户登出
+                                </a>
+                            </div>
+                        </li>
+                        <li id="jumpItem" class="nav-item nav-link no-arrow">
+                            <a class="nav-link" href="{{ url_for('home', username=username) }}" id="jumpToDashboard" role="button">
+                                <div class="sidebar-brand-icon">
+                                    <i class="fas fa-arrow-circle-right"></i>&nbsp;
+                                </div>
+                                <span class="mr-2 d-none d-lg-inline text-gray-800 small">跳转主页</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div id="buildingDiv" class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">建筑信息</h1>
+                        <a id="modifyBuildingModalBtn" href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                           data-toggle="modal" data-target="#buildingModifyModal">
+                            <i class="fas fa-pen fa-sm text-white-50"></i> 修改建筑信息</a>
+                        <!-- 这里用Toggle解决 优先级较低-->
+                    </div>
+                    <!-- Building Profile Card -->
+                    <div class="col-xl-12 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body p-0">
+                            <!-- Nested Row within Card Body -->
+                                <div class="row align-items-lg-center">
+                                    <div class="col-lg-2 d-none d-lg-block pl-5">
+                                        <!-- Scroll to Left Button-->
+                                        <a id="leftArrow" href="#" class="btn btn-outline-secondary btn-circle">
+                                            <i class="fas fa-arrow-left"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-4 d-none d-lg-block">
+                                        <img class="card-img img-thumbnail" src="{{ url_for('static', filename='img/bg_arch.jpeg') }}">
+                                    </div>
+                                    <div class="col-lg-5 d-none d-lg-block">
+                                        <div class="p-5">
+                                            <div class="text-center">
+                                                <h1 class="h4 text-gray-900 mb-4">建筑基本信息</h1>
+                                            </div>
+                                            <form class="building">
+                                                <div class="form-group row align-items-lg-baseline">
+                                                    <div class="font-weight-bold text-primary mb-1">
+                                                        建筑编号
+                                                    </div>
+                                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                                        <input id="bid" type="text" class="form-control form-control-plaintext border-0"
+                                                            name="bid" placeholder="Building Number">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row align-items-lg-baseline">
+                                                    <div class="font-weight-bold text-primary mb-1">
+                                                        建筑名称
+                                                    </div>
+                                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                                        <input id="bName" type="text" class="form-control form-control-plaintext border-0"
+                                                            name="bName" placeholder="Building Name">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row align-items-lg-baseline">
+                                                    <div class="font-weight-bold text-primary mb-1">
+                                                        建筑类型
+                                                    </div>
+                                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                                        <input id="bType" type="text" class="form-control form-control-plaintext border-0"
+                                                            name="bType" placeholder="Building Type">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row align-items-lg-baseline">
+                                                    <div class="font-weight-bold text-primary mb-1">
+                                                        建筑地址
+                                                    </div>
+                                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                                        <input id="bAddr" type="text" class="form-control form-control-plaintext border-0"
+                                                            name="bAddr" placeholder="Building Address">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row align-items-lg-baseline">
+                                                    <div class="font-weight-bold text-primary mb-1">
+                                                        建筑面积
+                                                    </div>
+                                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                                        <input id="bArea" type="text" class="form-control form-control-plaintext border-0"
+                                                            name="bArea" placeholder="Building Area">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row align-items-lg-baseline">
+                                                    <div class="font-weight-bold text-primary mb-1">
+                                                        空调系统冷源形式
+                                                    </div>
+                                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                                        <input id="bColdSource" type="text" class="form-control form-control-plaintext border-0"
+                                                            name="bColdSource" placeholder="Cold Source">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row align-items-lg-baseline">
+                                                    <div class="font-weight-bold text-primary mb-1">
+                                                        空调系统末端形式
+                                                    </div>
+                                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                                        <input id="bTerminalType" type="text" class="form-control form-control-plaintext border-0"
+                                                            name="bTerminalType" placeholder="Terminal Type">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1 d-none d-lg-block pr-3">
+                                        <!-- Scroll to Right Button-->
+                                        <a id="rightArrow" href="#" class="btn btn-outline-secondary btn-circle">
+                                            <i class="fas fa-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+                <!-- Begin Page Content -->
+                <div id="dataListDiv" class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">关联能耗数据</h1>
+                    <a id="uploadDataModalBtn" href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                       data-toggle="modal" data-target="#fileUploadModal">
+                        <i class="fas fa-upload fa-sm text-white-50"></i> 上传观测数据</a>
+                    <!-- 这里用Toggle解决 优先级较低-->
+                    </div>
+                    <p class="mb-4">某建筑空调系统能耗观测数据分为两类：短期观测数据和长期观测数据。<br/>一般认为观测数据总条数小于60即为短期观测数据，短期与长期数据对应不同的能耗评估方法，具体原理方法可见本网站<a target="_blank"
+                            href="{{ url_for('index', username=username) }}">项目主页</a>及相关文献资料。<br/>关于有效的数据格式请参考<a target="_blank"
+                            href="{{ url_for('index', username=username) }}">网站使用指南</a>。</p>
+                    <!-- DataTales Example -->
+                    <div id="tableDiv" class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h5 class="m-0 font-weight-bold text-primary">空调系统能耗观测数据表</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 15%;">数据记录编号</th>
+                                            <th style="width: 10%;">数据类型</th>
+                                            <th style="width: 10%;">观测记录条数</th>
+                                            <th style="width: 15%;">是否有修正数据</th>
+                                            <th style="width: 20%;">上传时间</th>
+                                            <th style="width: 30%;">相关操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>数据记录编号</th>
+                                            <th>数据类型</th>
+                                            <th>观测记录条数</th>
+                                            <th>是否有修正数据</th>
+                                            <th>上传时间</th>
+                                            <th>相关操作</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody id="dataTableBody">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>版权所有 &copy; 清华大学生态规划与绿色建筑教育部重点实验室<br/>
+                            Copyright &copy; 2021 Tsinghua University. All Rights Reversed.</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">确认登出?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">如果确定要结束本次回话，请点击下方的"登出"按钮。</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
+                    <a class="btn btn-primary" href="{{ url_for('logout') }}">登出</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Building Modify Modal-->
+    <div class="modal fade" id="buildingModifyModal" tabindex="-1" role="dialog" aria-labelledby="buildingModifyModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">修改建筑实例</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="buildingModifyForm" action="{{ url_for("building", username=username)}}" method="POST">
+                        <!-- 修改建筑实例 -->
+                        <div class="row form-row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>建筑唯一标识</label>
+                                    <input id="buildingId" name="buildingId" type="text" class="form-control" placeholder="Building Id" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>管理用户标识</label>
+                                    <input id="ownerId" name="userId" type="text"  class="form-control" placeholder="User Id" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>建筑名称</label>
+                                    <input id="buildingName" name="buildingName" type="text" class="form-control" placeholder="Building Name" required>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>建筑类型</label>
+                                    <input id="buildingType" name="buildingType" type="text"  class="form-control" placeholder="Building Type">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>地址</label>
+                                    <input id="address" name="address" type="text" class="form-control" placeholder="Address">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>建筑面积(m<sup>2</sup>)</label>
+                                    <input id="area" name="area" type="text" class="form-control" placeholder="Covering Area">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>空调系统主要冷源形式</label>
+                                    <input id="coldSource" name="coldSource" type="text" class="form-control d-none" required>
+                                    <select id="selectColdSource" class="form-control">
+                                        <option value="">请选择</option>
+                                        <option value="螺杆式冷水机组">螺杆式冷水机组</option>
+                                        <option value="离心式冷水机组">离心式冷水机组</option>
+                                        <option value="风冷冷水机组">风冷冷水机组</option>
+                                        <option value="多联式空调机组">多联式空调机组</option>
+                                        <option value="其他">其他</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>空调系统主要末端形式</label>
+                                    <input id="terminalType" name="terminalType" type="text" class="form-control d-none" required>
+                                    <select id="selectTermType" class="form-control">
+                                        <option value="">请选择</option>
+                                        <option value="风机盘管">风机盘管</option>
+                                        <option value="辐射地板">辐射地板</option>
+                                        <option value="辐射天花">辐射天花</option>
+                                        <option value="主动式冷梁">主动式冷梁</option>
+                                        <option value="全空气系统末端">全空气系统末端</option>
+                                        <option value="多联式空调机组">多联式空调机组</option>
+                                        <option value="其他">其他</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <input id="startIndex" type="text" class="d-none form-control form-control-plaintext border-0"
+                                    name="startIndex" placeholder="Start Index">
+                        </div>
+                        {{ mbform.csrf_token }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
+                    <a id="modifyBuildingBtn" class="btn btn-primary" href="#">确认</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Building Modify Modal-->
+    <div class="modal fade" id="fileUploadModal" tabindex="-1" role="dialog" aria-labelledby="fileUploadModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">上传观测数据</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="fileUploadForm" action="#" method="POST">
+                        <!-- 上传观测数据 -->
+                        <div class="row form-row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>建筑唯一标识</label>
+                                    <input id="fBId" name="fBId" type="text" class="form-control" placeholder="Building Id" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>所属用户名</label>
+                                    <input id="fUName" name="fUName" type="text" class="form-control" placeholder="User Id" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>上传本地数据(接收文件类型为.xls/.xlsx/.csv)</label>
+                                    <div class="d-flex">
+                                        <input id="fileName" name="fileName" type="text"  class="form-control-file col-10" required="required">
+                                        <input id="newFileId" name="newFileId" type="text" style="display:none" required="required">
+                                        <input id="uStartIndex" name="uStartIndex" type="text" style="display:none" required="required">
+                                        <button id="chooseFileBtn" type="button" class="form-control btn-secondary btn-sm btn-block border-0 col-2">
+                                            上传文件</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div id="progressDiv" class="form-group">
+                                </div>
+                            </div>
+
+                        </div>
+                        {{ dform.csrf_token }}
+                        <input id="datafile" type="file" style="display:none" accept=".xls,.xlsx,.csv" required="required">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <span id="uploadStatus"></span>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
+                    <a id="uploadFileBtn" class="btn btn-primary" href="#">确认</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Delete Modal-->
+    <div class="modal fade" id="dataDeleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">删除观测数据</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span class="font-weight-bold">您确定要删除以下观测数据吗，如果删除则相关报告将一并删除?</span>
+                    <hr class="col-8">
+                    <form id="dataDeleteForm" action="{{ url_for('building', username=username) }}" method="POST">
+                        <!-- 删除观测数据 -->
+                        <div class="row form-row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>建筑唯一标识</label>
+                                    <input id="buildingId2" name="buildingId2" type="text" class="form-control" placeholder="Building Id" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>建筑名称</label>
+                                    <input id="buildingName2" name="buildingName2" type="text" class="form-control" placeholder="Building Name" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>数据唯一标识</label>
+                                    <input id="caseId2" name="caseId2" type="text" class="form-control" placeholder="Case Id" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>数据类型</label>
+                                    <input id="dataType2" name="dataType2" type="text" class="form-control" placeholder="Data Type" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+                    {{ cform.csrf_token }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
+                    <a id="deleteDataBtn" class="btn btn-primary" href="#">确认</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Display Modal-->
+    <div class="modal fade" id="resultDisplayModal" tabindex="-1" role="dialog" aria-labelledby="resultDisplayModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div id="resultModalContentDiv" class="print-content">
+                <div class="modal-header">
+                    <div class="ml-auto mb-auto">
+                    <h5 class="modal-title text-primary " style="font-weight: bold" id="exampleModalLabel">空调系统逐日能耗评估结果</h5>
+                    </div>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span class="no-print" aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card shadow mb-4">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-borderless" id="infoTable" width="100%" cellspacing="0">
+                                    <tbody id="infoTableBody">
+                                        <tr>
+                                            <td style="width: 20%; font-weight: bold">建筑唯一标识</td>
+                                            <td id="buildingId3" style="width: 20%;"></td>
+                                            <td style="width: 20%; font-weight: bold">建筑名称</td>
+                                            <td id="buildingName3" style="width: 40%;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 20%; font-weight: bold">建筑面积（$m^2$）</td>
+                                            <td id="buildingArea3" style="width: 20%"></td>
+                                            <td style="width: 20%; font-weight: bold">建筑地址</td>
+                                            <td id="address3" style="width: 40%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 20%; font-weight: bold">空调系统冷源形式</td>
+                                            <td id="coldSource3" style="width: 20%"></td>
+                                            <td style="width: 20%; font-weight: bold">空调系统末端形式</td>
+                                            <td id="terminalType3" style="width: 40%"></td>
+                                        </tr>
+                                        <tr id="longTermRow1">
+                                            <td style="width: 20%; font-weight: bold">使用评价方法</td>
+                                            <td id="judgeType" style="width: 20%"></td>
+                                            <td style="width: 20%; font-weight: bold">Sigmoid拟合公式</td>
+                                            <td id="formula" style="width: 40%">E(t)=E<sub>1</sub>/(1+e<sup>-k(t-t<sub>0</sub>)</sup>) + E<sub>0</sub></td>
+                                        </tr>
+                                        <tr id="longTermRow2">
+                                            <td style="width: 20%; font-weight: bold">[E<sub>1</sub> + E<sub>0</sub>, E(T=30℃)]</td>
+                                            <td id="parameter" style="width: 20%"></td>
+                                            <td style="width: 20%; font-weight: bold">所属评价区间</td>
+                                            <td id="level" style="width: 40%"></td>
+                                        </tr>
+                                        <tr id="shortTermRow">
+                                        <td style="width: 20%; font-weight: bold">使用评价方法</td>
+                                        <td id="judgeType2" style="width: 20%"></td>
+                                        <td style="width: 20%; font-weight: bold"></td>
+                                        <td style="width: 40%"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="card shadow mb-4">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-borderless" id="picTable" width="100%" cellspacing="0">
+                                    <tbody>
+                                        <tr id="picContentRow" class="text-center">
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-bordered" id="shortTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 50%;">短期评价散点图</th>
+                                            <th style="width: 20%">区域范围</th>
+                                            <th style="width: 20%">区域特征</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="shortTableBody">
+                                        <tr>
+                                            <td rowspan="3">
+                                                <img id="shortTermPic">
+                                            </td>
+                                            <td>上线之上</td>
+                                            <td>高能耗区</td>
+                                        </tr>
+                                        <tr>
+                                            <td>介于上下线之间</td>
+                                            <td>良好区域</td>
+                                        </tr>
+                                        <tr>
+                                            <td>低于下线</td>
+                                            <td>低能耗区</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <hr id="longDivide"/>
+                    <!-- DataTale of Level -->
+                    <div id="longTermDiv" class="card shadow mb-4">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="levelTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 10%">区域名称</th>
+                                            <th style="width: 22%">E(30℃)区间值（kWh/m<sup>2</sup>）</th>
+                                            <th style="width: 20%">E<sub>1</sub>+E<sub>0</sub>区间值（kWh/m<sup>2</sup>）</th>
+                                            <th style="width: 48%">结论及建议</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="levelTableBody">
+                                        <tr id="Azone">
+                                            <td>A区</td>
+                                            <td>(0,0.15]</td>
+                                            <td>-</td>
+                                            <td>空调系统运行优秀。</td>
+                                        </tr>
+                                        <tr id="Bzone">
+                                            <td>B区</td>
+                                            <td>(0.15,0.25]</td>
+                                            <td>(0.15,0.25]</td>
+                                            <td>空调系统运⾏良好。有⼀定节能潜⼒。需在冷源与末端的符合匹配上进⾏节能诊断，部分符合的节能运⾏等。</td>
+                                        </tr>
+                                        <tr id="Czone">
+                                            <td>C区</td>
+                                            <td>(0.15,0.25]</td>
+                                            <td>>0.25</td>
+                                            <td>空调系统运⾏良好。</td>
+                                        </tr>
+                                        <tr id="Dzone">
+                                            <td>D区</td>
+                                            <td>>0.25</td>
+                                            <td>(0.25,0.35]</td>
+                                            <td>空调系统运⾏较差。系统节能潜⼒很⼤，系统设计较为合理，运⾏不当造成运⾏能耗较⼤。主要从冷源机组与输配系统等能耗占⽐较⼤的组件开始进⾏节能诊断分析。</td>
+                                        </tr>
+                                        <tr id="Ezone">
+                                            <td>E区</td>
+                                            <td>>0.25</td>
+                                            <td>>0.35</td>
+                                            <td>空调系统运⾏效果很差。可能的原因：系统设计缺陷，冷源机组或输配系统出现较⼤故障等。需要对系统中各部分组件深度节能诊断。</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer no-print">
+                    <button id="downloadResultBtn" class="btn btn-info" href="#">保存至本地</button>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">关闭面板</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a id="fileDownloadLink" class="d-none" target="_blank" href="#" download></a>
+    <a id="openResultModalBtn" class="d-none" href="#" data-toggle="modal" data-target="#resultDisplayModal"></a>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <!-- Page level plugins -->
+    <script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.PrintArea.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+          }
+        };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        {#    定义全局变量    #}
+        var startIndex = parseInt('{{ startIndex }}');
+        var blJsonStr = JSON.parse({{ bl|tojson }});
+        {#console.log(blJsonStr);#}
+        var buildingListLength = blJsonStr['data'].length;
+        mbClick = function modifyBuildingInfo(){
+            $("#startIndex").val(startIndex);
+            let building_id = $("#buildingId").val();
+            let building_name = $("#buildingName").val();
+            let address = $("#address").val();
+            let area = $("#area").val();
+            let building_type = $("#buildingType").val();
+            let cold_source = $("#coldSource").val();
+            let terminal_type = $("#terminalType").val();
+            let building_obj = {"startIndex": startIndex, "user_id":'{{ user_profile['user_id'] }}',
+                                "building_id": building_id, "building_name": building_name,
+                                "building_type": building_type, "address": address,
+                                "area": area, "cold_source": cold_source, "terminal_type": terminal_type};
+            $.ajax({
+                type: "POST",
+                url: '{{ url_for('modifyBuildingInfo') }}',
+                contentType: "application/json;charset=UTF-8",
+                async: true,
+                data: JSON.stringify(building_obj),
+                dataType: "text",
+                success: function(msg){
+                    {#console.log(msg);#}
+                    alert("修改建筑信息成功！");
+                    $("#buildingModifyForm").submit();
+                },
+                error: function (err){
+                    {#console.log(err);#}
+                    alert("修改建筑信息失败，请重试！");
+                }
+            });
+        };
+        dbClick = function deleteDataInfo(){
+            let building_id = $("#buildingId2").val();
+            let building_name = $("#buildingName2").val();
+            let building_obj = {"case_id": $("#caseId2").val(), "building_id": building_id,
+                                "building_name": building_name};
+            $.ajax({
+                type: "POST",
+                url: '{{ url_for('deleteDataInfo') }}',
+                contentType: "application/json;charset=UTF-8",
+                async: true,
+                data: JSON.stringify(building_obj),
+                dataType: "text",
+                success: function(msg){
+                    {#console.log(msg);#}
+                    alert("删除观测数据成功！");
+                    $("#dataDeleteForm").submit();
+                },
+                error: function (err){
+                    {#console.log(err);#}
+                    alert("删除观测数据失败，请重试！");
+                }
+            });
+        };
+        {# 打开修改建筑信息页面时显示当前对应的建筑信息 #}
+        function openModifyBuildingModal(){
+            {#console.log(this);#}
+            let bInfo = blJsonStr['data'][startIndex];
+            {#console.log(bInfo);#}
+            $("#buildingId").val(bInfo['building_id']);
+            $("#ownerId").val('{{ user_profile.user_id }}');
+            $("#buildingName").val(bInfo['building_name']);
+            $("#buildingType").val(bInfo['building_type']);
+            $("#area").val(bInfo['area']);
+            $("#address").val(bInfo['address']);
+            let csSelList = document.getElementById('selectColdSource').options;
+            {#console.log(csSelList);#}
+            for (var i = 0; i < csSelList.length; i++){
+                if (csSelList[i].value === bInfo['cold_source'])  // 根据option标签的value来进行判断
+                {
+                    csSelList[i].selected = true;
+                }
+            }
+            $("#coldSource").val(bInfo['cold_source']);
+            let tySelList = document.getElementById('selectTermType').options;
+            {#console.log(tySelList);#}
+            for (var i = 0; i < tySelList.length; i++){
+                if (tySelList[i].value === bInfo['terminal_type'])  // 根据option标签的value来进行判断
+                {
+                    tySelList[i].selected = true;
+                }
+            }
+            $("#terminalType").val(bInfo['terminal_type']);
+            let btn = document.getElementById("modifyBuildingBtn");
+            btn.setAttribute("bid", bInfo['building_id']);
+        }
+        function showBuildingInfo(){
+            let bInfo = blJsonStr['data'][startIndex];
+            {#console.log(bInfo);#}
+            $("#startIndex").val(startIndex);
+            $("#bid").val(bInfo['building_id']);
+            $("#bName").val(bInfo['building_name']);
+            $("#bType").val(bInfo['building_type']);
+            $("#bAddr").val(bInfo['address']);
+            $("#bArea").val(bInfo['area']);
+            $("#bColdSource").val(bInfo['cold_source']);
+            $("#bTerminalType").val(bInfo['terminal_type']);
+            let tBody = document.getElementById('dataTableBody');
+            let items = tBody.getElementsByTagName('tr');
+            for(var i = items.length-1; i >= 0; i--){
+                tBody.removeChild(items[i]);
+            }
+            let bData = bInfo['data_list'];
+            {#console.log(bData)#}
+            let typeDict = {"0": "短期", "1": "长期"};
+            let fixDict = {"0": "无", "1": "有"};
+            for(var i = 0; i < bData.length; i++){
+                {#console.log(bData[i])#}
+                var trow = document.createElement("tr");
+                trow.id = 'data_' + i.toString(10);
+                var tdCaseId = createAndFill("td", bData[i]['case_id'], "15%");
+                {#console.log(bData[i]['case_id'])#}
+                trow.appendChild(tdCaseId);
+                var tdDataType = createAndFill("td", typeDict[bData[i]['data_type']], "10%");
+                {#console.log(bData[i]['data_type'])#}
+                trow.appendChild(tdDataType);
+                var data = bData[i]['data']['records'];
+                {#console.log(data)#}
+                var dataScale = createAndFill("td", data['energy_consume'].length, "10%");
+                trow.appendChild(dataScale);
+                var hasFix = createAndFill("td", fixDict[bData[i]['has_fix']], "15%");
+                trow.appendChild(hasFix);
+                var upload_time = createAndFill("td", bData[i]['upload_time'], "20%");
+                trow.appendChild(upload_time);
+                var opeartions = document.createElement("td");
+                opeartions.style.width = "30%";
+                {#, "下载原始数据；下载计算结果");#}
+                var containerDiv = document.createElement('div');
+                containerDiv.className = 'd-inline-flex';
+                containerDiv.appendChild(createTableButton("downloadRawData_"+i.toString(10),
+                    "btn btn-sm btn-success btn-icon-split", "下载数据", "fas fa-download", "data"));
+                containerDiv.appendChild(createTableButton("downloadResult_"+i.toString(10),
+                    "btn btn-sm btn-info btn-icon-split", "查看报告", "fas fa-file-download", "result"));
+                containerDiv.appendChild(createTableButton("deleteData_"+i.toString(10),
+                    "btn btn-sm btn-danger btn-icon-split", "删除数据", "fas fa-times-circle", "delete"));
+                opeartions.appendChild(containerDiv);
+                trow.appendChild(opeartions);
+                tBody.appendChild(trow);
+            }
+            $('#dataTable').DataTable();
+        }
+        function createAndFill(ele, content, width){
+            var e = document.createElement(ele);
+            e.style.width = width;
+            e.innerHTML = content;
+            return e;
+        }
+        function createTableButton(id, btnClass, text, icon, func){
+            var cDiv = document.createElement('div');
+            cDiv.className='center-block';
+            var btn = document.createElement('button');
+            btn.className = btnClass;
+            btn.id = id;
+            btn.type = 'button';
+            if(func === 'delete'){
+                {#console.log('add modal')#}
+                btn.setAttribute('data-toggle', "modal");
+                btn.setAttribute('data-target', "#dataDeleteModal");
+            }
+            var iSpan = document.createElement('span');
+            iSpan.className = "icon text-white-50";
+            var iEle = document.createElement('i');
+            iEle.className = icon;
+            iSpan.appendChild(iEle);
+            btn.appendChild(iSpan);
+            var textSpan = document.createElement('span');
+            textSpan.className = "text";
+            textSpan.innerHTML = text;
+            btn.appendChild(textSpan);
+            var blankSpan = document.createElement('span');
+            blankSpan.innerHTML = "&nbsp;"
+            cDiv.appendChild(btn);
+            cDiv.appendChild(blankSpan)
+            return cDiv;
+        }
+        {# 打开删除框时给填充modal内容 #}
+        function openDeleteDataModal(){
+            let index = this.id.substring(this.id.indexOf('_')+1);
+            let id = "data_" + index;
+            let trow = document.getElementById(id);
+            let tDataList = trow.getElementsByTagName('td');
+            let bid = $('#bid').val();
+            let bName = $('#bName').val();
+            $("#buildingId2").val(bid);
+            $("#buildingName2").val(bName);
+            $("#caseId2").val(tDataList[0].innerHTML);
+            $("#dataType2").val(tDataList[1].innerHTML);
+        }
+        {# 点击下载框时请求对应文件 #}
+        function downloadRawDataFile(){
+            let index = this.id.substring(this.id.indexOf('_')+1);
+            let id = "data_" + index;
+            let trow = document.getElementById(id);
+            let tDataList = trow.getElementsByTagName('td');
+            let bid = $('#bid').val();
+            let cid = tDataList[0].innerHTML;
+            let caseInfo = {'caseId': cid, "buildingId": bid, 'want': 'data'};
+            {#console.log("要下载建筑编号: "+ bid + "的数据，数据标识为："+ cid);#}
+            $.ajax({
+                type: "POST",
+                url: '{{ url_for('handleDownloadPost') }}',
+                contentType: "application/json;charset=UTF-8",
+                async: true,
+                data: JSON.stringify(caseInfo),
+                dataType: "text",
+                success: function(msg){
+                    {#console.log(window.location)#}
+                    alert("请求下载成功");
+                    var downloadLink = document.getElementById('fileDownloadLink');
+                    downloadLink.href = window.location.origin+msg;
+                    console.log(downloadLink)
+                    downloadLink.click();
+                },
+                error: function (err){
+                    console.log(err);
+                    alert("请求下载失败，请稍后重试！");
+                }
+            });
+        }
+        {# 点击下载框时请求对应文件 #}
+        function calculateResultData(){
+            let bInfo = blJsonStr['data'][startIndex];
+            let index = this.id.substring(this.id.indexOf('_')+1);
+            let bData = bInfo['data_list'][parseInt(index)];
+            let id = "data_" + index;
+            let trow = document.getElementById(id);
+            let tDataList = trow.getElementsByTagName('td');
+            let bid = $('#bid').val();
+            let cid = tDataList[0].innerHTML;
+            let cs = $("#bColdSource").val();
+            let hasReport = bData['has_report']
+            let caseInfo = {'caseId': cid, "buildingId": bid, 'coldSource': cs,
+                'hasReport': hasReport, 'want': 'report'};
+            {#console.log("要下载建筑编号: "+ bid + "的数据，数据标识为："+ cid);#}
+            $.ajax({
+                type: "POST",
+                url: '{{ url_for('calculateResult') }}',
+                contentType: "application/json;charset=UTF-8",
+                async: true,
+                data: JSON.stringify(caseInfo),
+                dataType: "text",
+                success: function(msg){
+                    {#console.log(msg)#}
+                    {# 填充modal内容 #}
+                    fillContentOfResultModal(msg, bInfo);
+                    let btn = document.getElementById('openResultModalBtn');
+                    btn.click();
+                },
+                error: function (err){
+                    {#console.log(err);#}
+                    alert("请求下载失败，请稍后重试！");
+                }
+            });
+        }
+        function fillContentOfResultModal(data, bInfo){
+            {#console.log(data);#}
+            let dataObj = JSON.parse(data)
+            {#console.log(dataObj)#}
+            {#console.log(bInfo);#}
+            $('#buildingId3').html(bInfo['building_id']);
+            $('#buildingName3').html(bInfo['building_name']);
+            $('#buildingArea3').html(bInfo['area']);
+            $('#address3').html(bInfo['address']);
+            $('#coldSource3').html(bInfo['cold_source']);
+            $('#terminalType3').html(bInfo['terminal_type']);
+            if(dataObj['type'] == "long"){
+                $('#longTermRow1').removeClass('d-none');
+                $('#longTermRow2').removeClass('d-none');
+                $('#shortTermRow').addClass('d-none');
+                $('#longDivide').removeClass('d-none');
+                $('#longTermDiv').removeClass('d-none');
+                $('#shortTable').addClass('d-none');
+                $('#picTable').removeClass('d-none');
+                $('#judgeType').html("长期评价");
+                $('#parameter').html('[' + dataObj['e1_e0'] + ', ' + dataObj['y30'] + ']');
+                $('#level').html(dataObj['level'] + "区")
+                {# 这里是选择对应的区改变字的颜色#}
+                switch (dataObj['level']) {
+                    case 'A':
+                        resetClasses(0);
+                        break;
+                    case 'B':
+                        resetClasses(1);
+                        break;
+                    case 'C':
+                        resetClasses(2);
+                        break;
+                    case 'D':
+                        resetClasses(3);
+                        break;
+                    case 'E':
+                        resetClasses(4);
+                        break;
+                }
+                let picCntRow = document.getElementById('picContentRow');
+                let childList = picCntRow.getElementsByTagName('td');
+                for(var i = childList.length-1; i >= 0; i--){
+                    picCntRow.removeChild(childList[i]);
+                }
+
+                let leftPic = document.createElement('img');
+                leftPic.setAttribute('src', '/show' + dataObj['pics'][0].substring(dataObj['pics'][0].lastIndexOf('/')));
+                leftPic.setAttribute('class', 'card-img-top');
+                let leftTd = document.createElement('td');
+                leftTd.setAttribute('style', 'width:50%');
+                leftTd.appendChild(leftPic)
+                picCntRow.appendChild(leftTd);
+                let rightPic = document.createElement('img');
+                rightPic.setAttribute('src', '/show' + dataObj['pics'][1].substring(dataObj['pics'][0].lastIndexOf('/')));
+                rightPic.setAttribute('class', 'card-img-top');
+                let rightTd = document.createElement('td');
+                rightTd.setAttribute('style', 'width:50%');
+                rightTd.appendChild(rightPic)
+                picCntRow.appendChild(rightTd);
+            }else {
+                $('#longTermRow1').addClass('d-none');
+                $('#longTermRow2').addClass('d-none');
+                $('#shortTermRow').removeClass('d-none');
+                $('#longDivide').addClass('d-none');
+                $('#longTermDiv').addClass('d-none');
+                $('#shortTable').removeClass('d-none');
+                $('#picTable').addClass('d-none');
+                $('#judgeType2').html("短期评价");
+                let pic = document.getElementById('shortTermPic');
+                pic.setAttribute('src', '/show' + dataObj['pics'][0].substring(dataObj['pics'][0].lastIndexOf('/')));
+                pic.setAttribute('class', 'card-img-top');
+            }
+        }
+        function resetClasses(add){
+            let levelTblBody = document.getElementById('levelTableBody');
+            let trows = levelTblBody.getElementsByTagName('tr');
+            for(var i = 0; i < trows.length; i++){
+                if(i === add){
+                    trows[i].setAttribute('class', 'text-primary');
+                }else{
+                    trows[i].setAttribute('class', '');
+                }
+            }
+        }
+        function downloadResultFile(){
+            alert("请求下载成功");
+            var downloadLink = document.getElementById('fileDownloadLink');
+            downloadLink.href = window.location.origin+msg;
+            console.log(downloadLink)
+            downloadLink.click();
+        }
+        function openUploadFileModal(){
+            var status = document.getElementById('uploadStatus');
+            status.innerHTML = "";
+            let bInfo = blJsonStr['data'][startIndex];
+            $("#fBId").val(bInfo['building_id']);
+            $("#fUName").val('{{ username }}');
+            $("#datafile").val("");
+            $("#fileName").val("");
+            var pdiv = document.getElementById('progressDiv');
+            pdiv.innerHTML = "";
+        }
+        rightShift = function chooseNextBuilding(){
+            if(startIndex + 1 >= buildingListLength){
+                startIndex = 0;
+            }else{
+                startIndex = (startIndex + 1)%buildingListLength;
+            }
+            showBuildingInfo();
+        };
+        leftShift = function choosePrevBuilding(){
+            if(startIndex - 1 < 0){
+                startIndex = buildingListLength-1;
+            }else{
+                startIndex = (startIndex - 1)%buildingListLength;
+            }
+            showBuildingInfo();
+        };
+        fileClick = function F_Open_dialog()
+        {
+            document.getElementById("datafile").click();
+        }
+        function startUploadFile(file){
+            var pDiv = document.getElementById('progressDiv');
+            pDiv.innerHTML=""
+			// 手工构造一个 form 对象
+			var formData = new FormData();
+			formData.append('file', file); // 'file' 为HTTP Post里的字段名, file 对浏览器里的File对象
+            $.ajax({
+                url : '{{ url_for('uploadDataFile') }}',
+                type : 'POST',
+                data : formData,
+                contentType: false,// 当有文件要上传时，此项是必须的，否则后台无法识别文件流的起始位置
+                processData: false,// 是否序列化data属性，默认true(注意：false时type必须是post)
+                dataType: 'text',//这里是返回类型，一般是json,text等
+                clearForm: true,//提交后是否清空表单数据
+                xhr: function(){
+                    // 手工构造一个请求对象，用这个对象来发送表单数据
+			        // 设置 progress, load, error, abort 4个事件处理器
+                    var request = new XMLHttpRequest();
+                    request.upload.addEventListener("progress", window.evt_upload_progress, false);
+                    request.addEventListener("load", window.evt_upload_complete, false);
+                    request.addEventListener("error", window.evt_upload_failed, false);
+                    request.addEventListener("abort", window.evt_upload_cancel, false);
+                    return request;
+                },
+                success: function(data) {   //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
+                    var status = document.getElementById('uploadStatus');
+                    if(data.startsWith('error:')){
+                        status.className = "text-danger";
+                        status.innerHTML = data.substring(data.indexOf(':')+1);
+                    }else{
+                        {#console.log('上传成功');#}
+                        status.className = "text-success";
+                        status.innerHTML = "数据上传成功！";
+                        $("#newFileId").val(data);
+                        $("#uStartIndex").val(startIndex);
+                        {# 等待1.0s后提交表格 #}
+                        setTimeout(function(){
+                            $("#fileUploadForm").submit();
+                        }, 1000);
+                    }
+                },
+                error: function(data, status, e) {  //提交失败自动执行的处理函数。
+                    console.error(e);
+                    var status = document.getElementById('uploadStatus');
+                    status.className = "text-danger";
+                    status.innerHTML = "数据上传失败，请重试！";
+                }
+            });
+            var labelDiv = document.createElement('div');
+            labelDiv.className = "mb-1 small";
+            labelDiv.innerHTML = "当前文件上传进度<span id='progressText' class='fonts-weight-bold'></span>";
+            pDiv.appendChild(labelDiv);
+            var barDiv = document.createElement('div');
+            barDiv.className = "progress progress-sm mb-2";
+            var pBar = document.createElement('div');
+            pBar.id = "uploadProgressBar";
+            pBar.className = "progress-bar";
+            pBar.role = "progressbar";
+            pBar.style.width = "0%";
+            pBar['aria-valuenow'] = "0";
+            pBar['aria-valuemin'] = "0";
+            pBar['aria-valuemax'] = "100";
+            barDiv.appendChild(pBar);
+            pDiv.appendChild(barDiv);
+        }
+        window.evt_upload_progress = function (evt)
+		{
+		    if (evt.lengthComputable)
+		    {
+		    	var progress = Math.round(evt.loaded * 100 / evt.total);
+                var pText = document.getElementById('progressText');
+                pText.innerHTML = progress.toString(10) + "%";
+		    	var pBar = document.getElementById('uploadProgressBar');
+                pBar.style.width = progress.toString(10) + "%";
+                pBar['aria-valuenow'] = progress.toString(10);
+		    }
+		};
+		window.evt_upload_complete = function (evt)
+		{
+			if(evt.loaded == 0)
+			{
+				alert("上传失败!");
+			}
+			else
+			{
+				{#alert("上传完成!");#}
+		    	var response = JSON.parse(evt.target.responseText);
+		   		{#console.log (response);#}
+			}
+		};
+		window.evt_upload_failed = function (evt)
+		{
+			alert("上传出错");
+		};
+		window.evt_upload_cancel = function (evt)
+		{
+			alert( "上传中止!");
+		};
+        $(window).on("load",function () {
+            let mbBtn = document.getElementById('modifyBuildingBtn');
+            mbBtn.onclick = mbClick;
+            let dbBtn = document.getElementById('deleteDataBtn');
+            dbBtn.onclick = dbClick;
+            {# 打开该页面时加载当前startIndex指向的建筑信息 #}
+            let openBuildingModalBtn = document.getElementById("modifyBuildingModalBtn");
+            openBuildingModalBtn.onclick = openModifyBuildingModal;
+            startIndex = parseInt('{{ startIndex }}');
+            showBuildingInfo();
+            let rightArrow = document.getElementById('rightArrow');
+            rightArrow.onclick = rightShift;
+            let leftArrow = document.getElementById('leftArrow');
+            leftArrow.onclick = leftShift;
+            let btnFile = document.getElementById('chooseFileBtn');
+            btnFile.onclick = fileClick;
+            let openFileModalBtn = document.getElementById('uploadDataModalBtn');
+            openFileModalBtn.onclick = openUploadFileModal;
+            $("#datafile").change(function () {
+                //获取文件上传文件的文件名和扩展名
+                var myfile = document.getElementById('datafile');
+                var fileNameInput = document.getElementById('fileName');
+                if (myfile.files[0] == undefined) {
+                    alert('未上传任何文件！');
+                } else {
+                    //获取文件的value值
+                    var file = myfile.files[0];
+                    var uploadBtn = document.getElementById('uploadFileBtn');
+                    uploadBtn.onclick = function(){
+                        startUploadFile(file);
+                    }
+                    var fileValue = $("#datafile").val()
+                    //获取文件名+扩展名
+                    var fileName = fileValue.split("\\").pop();
+                    //获取文件名
+                    fileName = fileName.substring(0, fileName.lastIndexOf("."));
+                    //获取文件的扩展名
+                    var fileExt = fileValue.substr(fileValue.lastIndexOf("."));
+                    //清空DIV容器内容
+                    fileNameInput.value = fileName+fileExt;
+                    {#console.log(fileExt);#}
+                }
+            });
+            {#  为数据操作按钮赋动作函数  #}
+            let dataDownloadBtns = document.getElementsByClassName('btn btn-sm btn-success btn-icon-split');
+            for(var i = 0; i < dataDownloadBtns.length; i++){
+                dataDownloadBtns[i].onclick = downloadRawDataFile;
+            }
+            let resultDownloadBtns = document.getElementsByClassName('btn btn-sm btn-info btn-icon-split');
+            {#console.log("resultDownloadBtns size: " + resultDownloadBtns.length)#}
+            for(var i = 0; i < resultDownloadBtns.length; i++){
+                resultDownloadBtns[i].onclick = calculateResultData;
+            }
+            let deleteBtns = document.getElementsByClassName('btn btn-sm btn-danger btn-icon-split');
+            for(var i = 0; i < deleteBtns.length; i++){
+                deleteBtns[i].onclick = openDeleteDataModal;
+            }
+            $('#downloadResultBtn').click(function(){
+                $("#resultModalContentDiv").printArea();
+            })
+        })
+        $(function () {
+            $("#selectColdSource").change(function(){
+                $("#coldSource").val($(this).children('option:selected').val());
+            });
+            $("#selectTermType").change(function(){
+                $("#terminalType").val($(this).children('option:selected').val());
+            });
+        })
+    </script>
+
+</body>
+
+</html>

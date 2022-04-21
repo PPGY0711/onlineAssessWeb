@@ -1,0 +1,132 @@
+[
+    {
+        "temperature": 29.05,
+        "energy_consume": 0.2911530612,
+        "fix_consume": 0.1370326531
+    },
+    {
+        "temperature": 30.85,
+        "energy_consume": 0.3645612245,
+        "fix_consume": 0.1488979592
+    },
+    {
+        "temperature": 29.825,
+        "energy_consume": 0.3682959184,
+        "fix_consume": 0.149877551
+    },
+    {
+        "temperature": 26.0875,
+        "energy_consume": 0.3664285714,
+        "fix_consume": 0.1481755102
+    },
+    {
+        "temperature": 19.375,
+        "energy_consume": 0.1800306122,
+        "fix_consume": 0.1237836735
+    },
+    {
+        "temperature": 21.4625,
+        "energy_consume": 0.1910204082,
+        "fix_consume": 0.1298081633
+    },
+    {
+        "temperature": 21.4625,
+        "energy_consume": 0.184255102,
+        "fix_consume": 0.1220816327
+    },
+    {
+        "temperature": 21.6625,
+        "energy_consume": 0.1971734694,
+        "fix_consume": 0.1257428571
+    },
+    {
+        "temperature": 20.8625,
+        "energy_consume": 0.1909897959,
+        "fix_consume": 0.1360408163
+    },
+    {
+        "temperature": 23.85,
+        "energy_consume": 0.2274489796,
+        "fix_consume": 0.1225714286
+    },
+    {
+        "temperature": 24.3375,
+        "energy_consume": 0.2344591837,
+        "fix_consume": 0.1288040816
+    },
+    {
+        "temperature": 24.825,
+        "energy_consume": 0.2516938776,
+        "fix_consume": 0.1313755102
+    },
+    {
+        "temperature": 21.6,
+        "energy_consume": 0.2004795918,
+        "fix_consume": 0.1263918367
+    },
+    {
+        "temperature": 21.6875,
+        "energy_consume": 0.2032959184,
+        "fix_consume": 0.1225714286
+    },
+    {
+        "temperature": 23.775,
+        "energy_consume": 0.2155408163,
+        "fix_consume": 0.1245306122
+    },
+    {
+        "temperature": 24.2125,
+        "energy_consume": 0.2246632653,
+        "fix_consume": 0.1281918367
+    },
+    {
+        "temperature": 24.525,
+        "energy_consume": 0.2541122449,
+        "fix_consume": 0.1297959184
+    },
+    {
+        "temperature": 24.0,
+        "energy_consume": 0.2421122449,
+        "fix_consume": 0.1316326531
+    },
+    {
+        "temperature": 23.55,
+        "energy_consume": 0.2409183673,
+        "fix_consume": 0.1313877551
+    },
+    {
+        "temperature": 23.7625,
+        "energy_consume": 0.235377551,
+        "fix_consume": 0.1224489796
+    },
+    {
+        "temperature": 26.825,
+        "energy_consume": 0.289255102,
+        "fix_consume": 0.1359183673
+    },
+    {
+        "temperature": 28.5125,
+        "energy_consume": 0.3221020408,
+        "fix_consume": 0.143644898
+    },
+    {
+        "temperature": 26.1625,
+        "energy_consume": 0.3082346939,
+        "fix_consume": 0.1354285714
+    },
+    {
+        "temperature": 24.95,
+        "energy_consume": 0.2945204082,
+        "fix_consume": 0.1338244898
+    },
+    {
+        "temperature": 26.9125,
+        "energy_consume": 0.1668367347,
+        "fix_consume": 0.0903673469
+    },
+    {
+        "temperature": 25.975,
+        "energy_consume": 0.3404081633,
+        "fix_consume": 0.1394816327
+    }
+]

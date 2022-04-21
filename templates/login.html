@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>在线空调系统能耗评估平台 - 用户登录</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block">
+                                <img src="{{ url_for('static', filename='img/bg_arch.jpeg') }}" class="bg-login-image">
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">欢迎使用</h1>
+                                    </div>
+                                    <form id="loginForm" class="user" name="login" action="{{ url_for("login") }}" method="POST">
+                                        <div class="form-group">
+                                            <input type="text" name="username" class="form-control form-control-user"
+                                                id="inputUsername" aria-describedby="usernameHelp"
+                                                placeholder="Username">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="password" class="form-control form-control-user"
+                                                id="inputPassword" placeholder="Password">
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" name="remember"  class="custom-control-input" id="customCheck">
+                                                <label class="custom-control-label" for="customCheck">记住我</label>
+                                            </div>
+                                        </div>
+                                        <input id="loginBtn" type="button" class="btn btn-primary btn-user btn-block" value="登录">
+                                        {{ form.csrf_token }}
+                                    </form>
+                                    <div id="msgDiv" class="text-center"></div>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="#">忘记密码？</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="{{ url_for('register') }}">创建用户</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="{{ url_for('homepage') }}">不登录，回到主页</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+    <script>
+        function sendLoginRequest(){
+            let user_obj = {'username': $("#inputUsername").val(), 'password': $("#inputPassword").val()};
+            var msgDiv = document.getElementById('msgDiv');
+            msgDiv.innerHTML="";
+            $.ajax({
+                type: "POST",
+                url: '{{ url_for('handleLogin') }}',
+                contentType: "application/json;charset=UTF-8",
+                async: true,
+                data: JSON.stringify(user_obj),
+                dataType: "text",
+                success: function(msg){
+                    if(msg.startsWith("error: ")){
+                        var errorSpan = document.createElement('span');
+                        errorSpan.className="text-danger text-xs";
+                        errorSpan.innerHTML=msg.substring(msg.indexOf(':')+1);
+                        msgDiv.appendChild(errorSpan);
+                    }else{
+                        var successSpan = document.createElement('span');
+                        successSpan.className="text-success text-xs";
+                        successSpan.innerHTML="登录成功！";
+                        msgDiv.appendChild(successSpan);
+                        setTimeout(function(){
+                            $("#loginForm").submit();
+                        },500);
+                    }
+                },
+                error: function (err){
+                    console.log(err);
+                    var errorSpan = document.createElement('span');
+                    errorSpan.className="text-danger";
+                    errorSpan.innerHTML="登录失败，请重试！"
+                    msgDiv.appendChild(errorSpan);
+                }
+            });
+        }
+        $(window).on("load",function () {
+            var lbtn = document.getElementById('loginBtn');
+            lbtn.onclick = sendLoginRequest;
+        });
+    </script>
+
+</body>
+
+</html>

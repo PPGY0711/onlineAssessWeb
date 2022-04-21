@@ -1,0 +1,20 @@
+# 用于记录配置项
+# MySQL连接
+# 本地MySQL地址
+mysql:
+ host: '127.0.0.1'
+ user: 'zht_admin'
+ password: '123456'
+ dbname: 'zht_project'
+ user_table: 'user_info'
+ user_profile: 'user_profile'
+ building_table: 'building_info'
+ data_info: 'building_data'
+ encoding: 'utf-8'
+app:
+ PIC_FOLDER: './curveFitPics'
+ FONT_FOLDER: './fonts'
+ UPLOAD_FOLDER: './dataSheets'
+ JSON_FOLDER: './dataJson'
+ REPORT_FOLDER: './reports'
+ ALLOWED_EXTENSIONS: {'xls', 'xlsx', 'csv'}

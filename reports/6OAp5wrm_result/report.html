@@ -1,0 +1,198 @@
+
+            <!DOCTYPE html>
+            <html>
+            <head>
+            <meta charset="utf-8"> 
+            <title>空调系统逐日能耗评估结果</title>
+            <style type="text/css">
+                table.info{border: 1px solid #000;width: 100%;}
+
+                table.zero{border: 0;width: 100%;}
+
+                table.comment{border-right: 1px solid #000;border-bottom: 1px solid #000;width: 100%;}
+
+                td.comment{border-left: 1px solid #000;border-top: 1px solid #000;}
+                td.px{width: 5px;border-left: 1px solid #000;border-top: 1px solid #000;}
+                td.firstc{border-left: 1px solid #000;border-top: 1px solid #000;}
+            </style>
+            </head>
+
+            <body>
+            <h1 align="center"><b>空调系统逐日能耗评估结果</b></h1>
+
+            <table class="info" border="0">
+                <tr>
+                    <td width="5px"> </td>
+                    <td align="left", width=20%>
+                        <!-- <b >建筑名称</b> -->
+                    </td>
+                    <td>测试建筑物1</td>
+                </tr>
+
+                <tr>
+                    <td width="5px"> </td>
+                    <td>
+                        <!-- <b>建筑地址</td></b> -->
+                    </td>
+                    <td>北京市海淀区</td>
+                </tr>
+
+                <tr>
+                    <td width="5px"> </td>
+                    <td>
+                        <!-- <div class="formula">
+                            <label><b>建筑面积 (</b> </label>
+                            $m^2$
+                            <b>)</b>
+                        </div> -->
+                        <div>
+                            <!-- 建筑面积  $(m^2)$ -->
+                        </div>
+                    </td>
+                    <td>1000.0</td>
+                </tr>
+
+                <tr>
+                    <td width="5px"> </td>
+                    <td>
+                        <!-- <b>空调系统冷源形式</td></b> -->
+                    </td>
+                    <td>螺杆式冷水机组</td>
+                </tr>
+
+                <tr>
+                    <td width="5px"> </td>
+                    <td>
+                        <!-- <b>空调系统末端形式</td></b> -->
+                    </td>
+                    <td>风机盘管</td>
+                </tr>
+            </table>
+
+            <br>
+
+            <table class="info">
+                <tr>
+                    <td width="5px"> </td>
+                    <td width=20%>
+                        <!-- <b>使用评价方法</b> -->
+                    </td>
+                    <td width=30%>长期评价</td>
+
+                    <td width="20%"><b>Sigmoid拟合公式</b></td>
+                    <td>
+                        <div  style="color:rgba(0, 0, 0, 0)">
+                            $E(t)=rac(E_1)(1+e^(-k(t-t_0)))+E_0aaaaaa$
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="5px"> </td>
+                    <td>
+                        <div class="formula">
+                            <!-- $[E_1+E_0,E_(30^\circ C)]$ -->
+                        </div>
+                    </td>
+                    <td>0.4734</td>
+
+                    <td><b>所属评价区间</b></td>
+                    <td>E区</td>
+                </tr>
+            </table>
+
+            <!-- <table class="zero" border-bottom="0">
+                <tr align="center">
+                    <td>
+                        <img src="static/img01.png" width="100%">
+                    </td>
+                    
+                    <td>
+                        <img src="static/img02.png" width="100%">
+                    </td>
+                </tr>
+            </table> -->
+
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+
+
+
+            <table class="comment" cellspacing="0">
+                <tr>
+                    <!-- <td class="px" align="center"></td> -->
+                    <td class="firstc" width="10%" align="center"><b>区域名称</b></td>
+                    <td class="comment" width="20%" align="center">
+                        <!-- <div>$E_(T=30^\circ C)^(st)$<b>区间值 </b>$kWh/m^2$</div> -->
+                    </td>
+                    <td class="comment" align="center" width="20%">
+                        <!-- <div class="formula">$E_1^st+E_0^st$<b>区间值 </b>$kWh/m^2$</div> -->
+                    </td>
+                    <td class="comment" align="center"><b>结论及建议</b></td>
+                </tr>
+
+                <tr>
+                    <!-- <td class="px"></td> -->
+                    <td class="firstc" align="center"><b>A区</b></td>
+                    <td class="comment" align="center"><div>(0,0.15]</div></td>
+                    <td class="comment" align="center">-</td>
+                    <td class="comment">空调系统运行优秀。</td>
+                </tr>
+
+                <tr>
+                    <!-- <td class="px"></td> -->
+                    <td class="firstc" align="center"><b>B区</b></td>
+                    <td class="comment" align="center"><div>(0.15,0.25]</div></td>
+                    <td class="comment" align="center"><div class="formula">(0.15,0.25]</div></td>
+                    <td class="comment">空调系统运行良好。有一定节能潜力。需在冷源与末端的符合匹配上进行节能诊断，部分符合的节能运行等。</td>
+                </tr>
+
+                <tr>
+                    <!-- <td class="px"></td> -->
+                    <td class="firstc" align="center"><b>C区</b></td>
+                    <td class="comment" align="center"><div class="formula">(0.15,0.25]</div></td>
+                    <!-- <td class="comment" align="center"><div class="formula">>0.25</div></td> -->
+                    <td class="comment" align="center">>0.25</td>
+                    <td class="comment">空调系统运行良好。</td>
+                </tr>
+
+                <tr>
+                    <!-- <td class="px"></td> -->
+                    <td class="firstc" align="center"><b>D区</b></td>
+                    <td class="comment" align="center"><div class="formula">>0.25</div></td>
+                    <td class="comment" align="center"><div class="formula">(0.25,0.35]</div></td>
+                    <td class="comment">空调系统运行较差。系统节能潜力很大，系统设计较为合理，运行不当造成运行能耗较大。主要从冷源机组与输配系统等能耗占比较大的组件开始进行节能诊断分析。</td>
+                </tr>
+
+                <tr style="color:#0000FF">
+                    <!-- <td class="px"></td> -->
+                    <td class="firstc" align="center"><b>E区</b></td>
+                    <td class="comment" align="center"><div class="formula">>0.25</div></td>
+                    <td class="comment" align="center"><div class="formula">>0.35</div></td>
+                    <td class="comment">空调系统运行效果很差。可能的原因：系统设计缺陷，冷源机组或输配系统出现较大故障等。需要对系统中各部分组件深度节能诊断。</td>
+                </tr>
+            </table>
+            </body>
+            </html>
+            

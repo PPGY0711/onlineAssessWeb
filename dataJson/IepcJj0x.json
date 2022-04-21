@@ -1,0 +1,167 @@
+[
+    {
+        "temperature": 30.1,
+        "energy_consume": 0.43,
+        "fix_consume": 0.13
+    },
+    {
+        "temperature": 30.0,
+        "energy_consume": 0.42,
+        "fix_consume": 0.13
+    },
+    {
+        "temperature": 27.4,
+        "energy_consume": 0.35,
+        "fix_consume": 0.12
+    },
+    {
+        "temperature": 30.9,
+        "energy_consume": 0.45,
+        "fix_consume": 0.14
+    },
+    {
+        "temperature": 30.6,
+        "energy_consume": 0.45,
+        "fix_consume": 0.13
+    },
+    {
+        "temperature": 30.3,
+        "energy_consume": 0.45,
+        "fix_consume": 0.13
+    },
+    {
+        "temperature": 30.3,
+        "energy_consume": 0.44,
+        "fix_consume": 0.13
+    },
+    {
+        "temperature": 30.6,
+        "energy_consume": 0.44,
+        "fix_consume": 0.14
+    },
+    {
+        "temperature": 29.7,
+        "energy_consume": 0.45,
+        "fix_consume": 0.14
+    },
+    {
+        "temperature": 29.5,
+        "energy_consume": 0.43,
+        "fix_consume": 0.13
+    },
+    {
+        "temperature": 29.4,
+        "energy_consume": 0.44,
+        "fix_consume": 0.14
+    },
+    {
+        "temperature": 28.5,
+        "energy_consume": 0.4,
+        "fix_consume": 0.13
+    },
+    {
+        "temperature": 27.2,
+        "energy_consume": 0.36,
+        "fix_consume": 0.13
+    },
+    {
+        "temperature": 30.4,
+        "energy_consume": 0.42,
+        "fix_consume": 0.13
+    },
+    {
+        "temperature": 27.8,
+        "energy_consume": 0.38,
+        "fix_consume": 0.13
+    },
+    {
+        "temperature": 28.7,
+        "energy_consume": 0.41,
+        "fix_consume": 0.14
+    },
+    {
+        "temperature": 28.3,
+        "energy_consume": 0.42,
+        "fix_consume": 0.13
+    },
+    {
+        "temperature": 27.7,
+        "energy_consume": 0.39,
+        "fix_consume": 0.13
+    },
+    {
+        "temperature": 29.5,
+        "energy_consume": 0.41,
+        "fix_consume": 0.14
+    },
+    {
+        "temperature": 29.7,
+        "energy_consume": 0.4,
+        "fix_consume": 0.13
+    },
+    {
+        "temperature": 29.8,
+        "energy_consume": 0.43,
+        "fix_consume": 0.14
+    },
+    {
+        "temperature": 30.3,
+        "energy_consume": 0.43,
+        "fix_consume": 0.14
+    },
+    {
+        "temperature": 30.0,
+        "energy_consume": 0.42,
+        "fix_consume": 0.14
+    },
+    {
+        "temperature": 29.5,
+        "energy_consume": 0.43,
+        "fix_consume": 0.14
+    },
+    {
+        "temperature": 28.0,
+        "energy_consume": 0.38,
+        "fix_consume": 0.13
+    },
+    {
+        "temperature": 27.2,
+        "energy_consume": 0.37,
+        "fix_consume": 0.13
+    },
+    {
+        "temperature": 29.1,
+        "energy_consume": 0.39,
+        "fix_consume": 0.13
+    },
+    {
+        "temperature": 24.9,
+        "energy_consume": 0.31,
+        "fix_consume": 0.12
+    },
+    {
+        "temperature": 24.6,
+        "energy_consume": 0.25,
+        "fix_consume": 0.12
+    },
+    {
+        "temperature": 25.2,
+        "energy_consume": 0.26,
+        "fix_consume": 0.12
+    },
+    {
+        "temperature": 25.0,
+        "energy_consume": 0.26,
+        "fix_consume": 0.12
+    },
+    {
+        "temperature": 25.4,
+        "energy_consume": 0.28,
+        "fix_consume": 0.13
+    },
+    {
+        "temperature": 26.8,
+        "energy_consume": 0.31,
+        "fix_consume": 0.13
+    }
+]

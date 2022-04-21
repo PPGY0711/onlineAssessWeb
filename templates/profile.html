@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>在线空调系统能耗评估平台 - {{ username }} 的个人主页</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <!-- Custom styles for this page -->
+    <link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-chart-area"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">在线空调系统<br/>能耗评估平台</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index', username=username) }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>项目主页</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                数据平台
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Nav Item - Charts -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('profile', username=username) }}">
+                    <i class="fas fa-fw fa-info-circle"></i>
+                    <span>用户资料</span></a>
+            </li>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('building', username=username) }}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>建筑信息</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                HELP
+            </div>
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('guide', username=username) }}">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>使用指南</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-lg-0">
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" href="#profileDiv" id="principle" role="button">
+                                <span class="mr-2 d-none d-lg-inline text-gray-800">个人信息</span>
+                            </a>
+                        </li>
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" href="#buildingListDiv" id="principle" role="button">
+                                <span class="mr-2 d-none d-lg-inline text-gray-800">建筑列表</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Nav Item - School Logo -->
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" target="_blank" href="http://www.yuxiblog.cn/public/example/shengtailab/views/index.html" id="arch_logo">
+                            <img class="img-profile rounded-circle" alt="Laboratory Logo" title="清华大学生态规划与绿色建筑教育部重点实验室"
+                                    src="{{ url_for('static', filename='img/lib_logo2.jpeg') }}">
+                            </a>
+                        </li>
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" target="_blank" href="http://www.thad.com.cn/" id="arch_logo">
+                            <img class="img-profile rounded-circle" alt="THAD Logo" title="清华大学建筑设计研究院有限公司"
+                                    src="{{ url_for('static', filename='img/arch_logo.jpeg') }}">
+                            </a>
+                        </li>
+                        <li class="nav-item nav-link no-arrow">
+                            <a class="nav-link" target="_blank" href="https://www.tsinghua.edu.cn/" id="uni_logo">
+                            <img class="img-profile rounded-circle" alt="THU Logo" title="清华大学"
+                                    src="{{ url_for('static', filename='img/Tsinghua_University_Logo.svg') }}">
+                            </a>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item nav-link dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="img-profile rounded-circle"
+                                    src="{{ url_for('static', filename='img/avatar/'+user_profile['avatar']) }}">
+                                <span class="mr-2 d-none d-lg-inline text-gray-800 small">&nbsp;&nbsp;{{ username }}</span>
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="{{ url_for('profile', username=username) }}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    用户资料
+                                </a>
+                                <a class="dropdown-item" href="{{ url_for('building', username=username) }}">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    建筑列表
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    用户登出
+                                </a>
+                            </div>
+                        </li>
+                        <li id="jumpItem" class="nav-item nav-link no-arrow">
+                            <a class="nav-link" href="{{ url_for('home', username=username) }}" id="jumpToDashboard" role="button">
+                                <div class="sidebar-brand-icon">
+                                    <i class="fas fa-arrow-circle-right"></i>&nbsp;
+                                </div>
+                                <span class="mr-2 d-none d-lg-inline text-gray-800 small">跳转主页</span>
+                            </a>
+
+                        </li>
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div id="profileDiv" class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">个人信息</h1>
+                        <a id="modifySwitch" href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                           data-toggle="modal" data-target="#modifyModal">
+                            <i class="fas fa-pen fa-sm text-white-50"></i> 修改个人信息</a>
+                        <!-- 这里用Toggle解决 优先级较低-->
+                    </div>
+                    <div class="row">
+                        <!-- Personal Profile Card -->
+                        <div class="col-xl-12 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-lg-9 d-none d-lg-block">
+                                        <div class="p-5">
+                                            <div class="text-center">
+                                                <h1 class="h4 text-gray-900 mb-4">用户基本信息</h1>
+                                            </div>
+                                            <form class="user">
+                                                <div class="form-group row align-items-lg-baseline">
+                                                    <div class="h6 col-sm-2 mb-1 mb-sm-0 font-weight-bold text-primary mb-1">
+                                                        用户名
+                                                    </div>
+                                                    <div class="col-sm-3 mb-3 mb-sm-0">
+                                                        <div class="h6 mb-0 font-weight-bold text-gray-800">{{ user_profile['username'] }}</div>
+                                                    </div>
+                                                    <div class="h6 col-sm-2 mb-1 mb-sm-0 font-weight-bold text-primary mb-1">
+                                                        性别
+                                                    </div>
+                                                    <div class="col-sm-3 mb-3 mb-sm-0">
+                                                        {% if user_profile['gender'] == 'U'  %}
+                                                        <div class="h6 mb-0 font-weight-bold text-gray-800">保密</div>
+                                                        {% elif user_profile['gender'] == 'M'  %}
+                                                        <div class="h6 mb-0 font-weight-bold text-gray-800">男</div>
+                                                        {% else %}
+                                                        <div class="h6 mb-0 font-weight-bold text-gray-800">女</div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row align-items-lg-baseline">
+                                                    <div class="h6 col-sm-2 mb-1 mb-sm-0 font-weight-bold text-primary mb-1">
+                                                        职业/专业
+                                                    </div>
+                                                    <div class="col-sm-3 mb-3 mb-sm-0">
+                                                        <div class="h6 mb-0 font-weight-bold text-gray-800">{{ user_profile['profession'] }}</div>
+                                                    </div>
+                                                    <div class="h6 col-sm-2 mb-1 mb-sm-0 font-weight-bold text-primary mb-1">
+                                                        工作单位
+                                                    </div>
+                                                    <div class="col-sm-3 mb-3 mb-sm-0">
+                                                        <div class="h6 mb-0 font-weight-bold text-gray-800">{{ user_profile['belong'] }}</div>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="form-group row align-items-lg-baseline">
+                                                    <div class="h6 col-sm-3 mb-2 mb-sm-0 font-weight-bold text-primary mb-1">
+                                                        管理建筑数量
+                                                    </div>
+                                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                                        <div class="h6 mb-0 font-weight-bold text-gray-800">{{ bl.data|length }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row align-items-lg-baseline">
+                                                    <div class="h6 col-sm-3 mb-2 mb-sm-0 font-weight-bold text-primary mb-1">
+                                                        可下载评估报告数量
+                                                    </div>
+                                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                                        <div class="h6 mb-0 font-weight-bold text-gray-800">{{ data_cnt }}</div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                        <div class="col-lg-2">
+                                            <img class="card-img img-thumbnail rounded-circle"
+                                                src="{{ url_for('static', filename='img/avatar/' + user_profile['avatar']) }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+                <!-- Begin Page Content -->
+                <div id="buildingListDiv" class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">管理建筑列表</h1>
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                           data-toggle="modal" data-target="#createModal">
+                            <i class="fas fa-building fa-sm text-white-50"></i> 创建建筑实例</a>
+                        <!-- 这里用Toggle解决 优先级较低-->
+                    </div>
+                    <!-- DataTales Example -->
+                    <div id="tableDiv" class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h5 class="m-0 font-weight-bold text-primary">建筑基本信息表</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>建筑唯一标识</th>
+                                            <th>建筑名</th>
+                                            <th>建筑类型</th>
+                                            <th>建筑面积(m<sup>2</sup>)</th>
+                                            <th>所在地址</th>
+                                            <th>空调系统主要冷源形式</th>
+                                            <th>空调系统主要末端形式</th>
+                                            <th>实例创建时间</th>
+                                            <th>相关操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th style="width: 10%">建筑唯一标识</th>
+                                            <th style="width: 10%">建筑名</th>
+                                            <th style="width: 5%">建筑类型</th>
+                                            <th style="width: 5%">建筑面积(m<sup>2</sup>)</th>
+                                            <th style="width: 10%">所在地址</th>
+                                            <th style="width: 10%">空调系统主要冷源形式</th>
+                                            <th style="width: 10%">空调系统主要末端形式</th>
+                                            <th style="width: 10%">实例创建时间</th>
+                                            <th style="width: 30%">相关操作</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {% for building in bl.data %}
+                                            <tr id={{ "building_" + loop.index0|string }}>
+                                                <td style="width: 10%;">{{ building.building_id }}</td>
+                                                <td style="width: 10%;">{{ building.building_name }}</td>
+                                                <td style="width: 10%;">{{ building.building_type }}</td>
+                                                <td style="width: 10%;">{{ building.area }}</td>
+                                                <td style="width: 10%;">{{ building.address }}</td>
+                                                <td style="width: 10%;">{{ building.cold_source }}</td>
+                                                <td style="width: 10%;">{{ building.terminal_type }}</td>
+                                                <td style="width: 10%;">{{ building.create_time }}</td>
+                                                <td style="width: 20%;">
+                                                    <div class="d-inline-flex">
+                                                        <div class="center-block">
+                                                        <button id={{ "buildingExplore_" + loop.index0|string }} type="button" class="btn btn-sm btn-primary btn-icon-split">
+                                                            <span class="icon text-white-50">
+                                                                <i class="fas fa-eye"></i>
+                                                            </span>
+                                                            <span class="text">查看</span>
+                                                        </button>
+                                                        </div>
+                                                        &nbsp;
+                                                        <div class="center-block">
+                                                        <button id={{ "buildingModify_" + loop.index0|string }} type="button" class="btn btn-sm btn-success btn-icon-split"
+                                                           data-toggle="modal" data-target="#buildingModifyModal">
+                                                            <span class="icon text-white-50">
+                                                                 <i class="fas fa-pen"></i>
+                                                            </span>
+                                                            <span class="text">修改</span>
+                                                        </button>
+                                                        </div>
+                                                        &nbsp;
+                                                        <div class="center-block">
+                                                        <button id={{ "buildingDelete_" + loop.index0|string }} type="button" class="btn btn-sm btn-danger btn-icon-split"
+                                                            data-toggle="modal" data-target="#buildingDeleteModal">
+                                                            <span class="icon text-white-50">
+                                                                 <i class="fas fa-times-circle"></i>
+                                                            </span>
+                                                            <span class="text">删除</span>
+                                                        </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>版权所有 &copy; 清华大学生态规划与绿色建筑教育部重点实验室<br/>
+                            Copyright &copy; 2021 Tsinghua University. All Rights Reversed.</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">确认登出?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">如果确定要结束本次回话，请点击下方的"登出"按钮。</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
+                    <a class="btn btn-primary" href="{{ url_for('logout') }}">登出</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal-->
+    <div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="modifyModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">修改个人信息</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="profileModifyForm" action="{{ url_for("profile", username=username) }}" method="POST">
+                        <div class="row form-row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>用户唯一编号</label>
+                                    <input id="userid" name="userid" type="text" class="form-control" value="{{ user_profile['user_id'] }}" readonly="readonly"/>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>用户名</label>
+                                    <input id="username" name="uesrname" type="text"  class="form-control" value="{{ user_profile['username'] }}" readonly="readonly"/>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>注册时间</label>
+                                    <input id="reg_time" name="reg_time" type="text" class="form-control" value="{{ user_profile['register_time'] }}" readonly="readonly"/>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>性别</label>
+                                    <input id="gender" name="gender" type="text" class="form-control d-none" value="{{ user_profile['gender'] }}" readonly="readonly"/>
+                                    <select id="select" class="form-control">
+                                        <option id="M">男</option>
+                                        <option id="F">女</option>
+                                        <option id="U">保密</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>职业/专业</label>
+                                    <input id="profession" name="profession" type="text"  class="form-control" value="{{ user_profile['profession'] }}"/>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>工作单位</label>
+                                    <input id="belong" name="belong" type="text" class="form-control" value="{{ user_profile['belong'] }}"/>
+                                </div>
+                            </div>
+                        </div>
+                        {{ pform.csrf_token }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
+                    <a id="modifyConfirmBtn" class="btn btn-primary" type="button" href="#">确认</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Building Modal-->
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="modifyModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">新建建筑实例</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="buildingCreateForm" action="{{ url_for("profile", username=username)}}" method="POST">
+                        <!-- 新建建筑实例 -->
+                        <div class="row form-row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>建筑名称</label>
+                                    <input id="buildingNameCre" name="buildingNameCre" type="text" class="form-control" placeholder="Building Name" required>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>建筑类型</label>
+                                    <input id="buildingTypeCre" name="buildingTypeCre" type="text"  class="form-control" placeholder="Building Type" required>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>地址</label>
+                                    <input id="addressCre" name="addressCre" type="text" class="form-control" placeholder="Address">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>建筑面积(m<sup>2</sup>)</label>
+                                    <input id="areaCre" name="areaCre" type="text" class="form-control" placeholder="Covering Area">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>空调系统主要冷源形式</label>
+                                    <input id="coldSourceCre" name="coldSourceCre" type="text" class="form-control d-none" required>
+                                    <select id="selectColdSourceCre" class="form-control">
+                                        <option value="">请选择</option>
+                                        <option value="螺杆式冷水机组">螺杆式冷水机组</option>
+                                        <option value="离心式冷水机组">离心式冷水机组</option>
+                                        <option value="风冷冷水机组">风冷冷水机组</option>
+                                        <option value="多联式空调机组">多联式空调机组</option>
+                                        <option value="其他">其他</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>空调系统主要末端形式</label>
+                                    <input id="terminalTypeCre" name="terminalTypeCre" type="text" class="form-control d-none" required>
+                                    <select id="selectTermTypeCre" class="form-control">
+                                        <option value="">请选择</option>
+                                        <option value="风机盘管">风机盘管</option>
+                                        <option value="辐射地板">辐射地板</option>
+                                        <option value="辐射天花">辐射天花</option>
+                                        <option value="主动式冷梁">主动式冷梁</option>
+                                        <option value="全空气系统末端">全空气系统末端</option>
+                                        <option value="多联式空调机组">多联式空调机组</option>
+                                        <option value="其他">其他</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        {{ cbform.csrf_token }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
+                    <a id="createBuildingBtn" class="btn btn-primary" href="#">确认</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Building Modify Modal-->
+    <div class="modal fade" id="buildingModifyModal" tabindex="-1" role="dialog" aria-labelledby="buildingModifyModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">修改建筑实例</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="buildingModifyForm" action="{{ url_for("profile", username=username)}}" method="POST">
+                        <!-- 修改建筑实例 -->
+                        <div class="row form-row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>建筑唯一标识</label>
+                                    <input id="buildingId" name="buildingId" type="text" class="form-control" placeholder="Building Id" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>管理用户标识</label>
+                                    <input id="ownerId" name="userId" type="text"  class="form-control" placeholder="User Id" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>建筑名称</label>
+                                    <input id="buildingName" name="buildingName" type="text" class="form-control" placeholder="Building Name" required>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>建筑类型</label>
+                                    <input id="buildingType" name="buildingType" type="text"  class="form-control" placeholder="Building Type">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>地址</label>
+                                    <input id="address" name="address" type="text" class="form-control" placeholder="Address">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>建筑面积(m<sup>2</sup>)</label>
+                                    <input id="area" name="area" type="text" class="form-control" placeholder="Covering Area">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>空调系统主要冷源形式</label>
+                                    <input id="coldSource" name="coldSource" type="text" class="form-control d-none" required>
+                                    <select id="selectColdSource" class="form-control">
+                                        <option value="">请选择</option>
+                                        <option value="螺杆式冷水机组">螺杆式冷水机组</option>
+                                        <option value="离心式冷水机组">离心式冷水机组</option>
+                                        <option value="风冷冷水机组">风冷冷水机组</option>
+                                        <option value="多联式空调机组">多联式空调机组</option>
+                                        <option value="其他">其他</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>空调系统主要末端形式</label>
+                                    <input id="terminalType" name="terminalType" type="text" class="form-control d-none" required>
+                                    <select id="selectTermType" class="form-control">
+                                        <option value="">请选择</option>
+                                        <option value="风机盘管">风机盘管</option>
+                                        <option value="辐射地板">辐射地板</option>
+                                        <option value="辐射天花">辐射天花</option>
+                                        <option value="主动式冷梁">主动式冷梁</option>
+                                        <option value="全空气系统末端">全空气系统末端</option>
+                                        <option value="多联式空调机组">多联式空调机组</option>
+                                        <option value="其他">其他</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        {{ mbform.csrf_token }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
+                    <a id="modifyBuildingBtn" class="btn btn-primary" href="#">确认</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Building Delete Modal-->
+    <div class="modal fade" id="buildingDeleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">删除建筑实例</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span class="font-weight-bold">您确定要删除以下建筑实例吗，如果删除则相关数据和报告将一并删除?</span>
+                    <hr class="col-8">
+                    <form id="buildingDeleteForm" action="{{ url_for("profile", username=username)}}" method="POST">
+                        <!-- 删除建筑实例 -->
+                        <div class="row form-row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>建筑唯一标识</label>
+                                    <input id="buildingId2" name="buildingId" type="text" class="form-control" placeholder="Building Id" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>建筑名称</label>
+                                    <input id="buildingName2" name="buildingName" type="text" class="form-control" placeholder="Building Name" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+                    {{ dbform.csrf_token }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
+                    <a id="deleteBuildingBtn" class="btn btn-primary" href="#">确认</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ url_for('static', filename='js/demo/datatables-demo.js') }}"></script>
+
+    <script>
+        var startIndex;
+        mpClick = function modifyPersonalFile(){
+            let user_id = $("#userid").val();
+            let username = $("#username").val();
+            let reg_time = $("#reg_time").val();
+            let gender = $("#gender").val();
+            let profession = $("#profession").val();
+            let workplace = $("#belong").val();
+            let user_obj = {"user_id": user_id, "username": username, "register_time": reg_time,
+                            "gender": gender, "profession": profession, "belong": workplace};
+            $.ajax({
+                type: "POST",
+                url: '{{ url_for('modifyProfile') }}',
+                contentType: "application/json;charset=UTF-8",
+                async: true,
+                data: JSON.stringify(user_obj),
+                dataType: "text",
+                success: function(msg){
+                    {#console.log(msg);#}
+                    alert("修改个人信息成功！");
+                    $("#profileModifyForm").submit();
+                },
+                error: function (err){
+                    {#console.log(err);#}
+                    alert("修改个人信息失败，请重试！");
+                }
+            });
+        };
+        mbClick = function modifyBuildingInfo(){
+            let building_id = $("#buildingId").val();
+            let building_name = $("#buildingName").val();
+            let address = $("#address").val();
+            let area = $("#area").val();
+            let building_type = $("#buildingType").val();
+            let cold_source = $("#coldSource").val();
+            let terminal_type = $("#terminalType").val();
+            let building_obj = {"startIndex": startIndex,"user_id":'{{ user_profile['user_id'] }}', "building_id": building_id,
+                                "building_name": building_name, "building_type": building_type, "address": address,
+                                "area": area, "cold_source": cold_source, "terminal_type": terminal_type};
+            $.ajax({
+                type: "POST",
+                url: '{{ url_for('modifyBuildingInfo') }}',
+                contentType: "application/json;charset=UTF-8",
+                async: true,
+                data: JSON.stringify(building_obj),
+                dataType: "text",
+                success: function(msg){
+                    {#console.log(msg);#}
+                    alert("修改建筑信息成功！");
+                    $("#buildingModifyForm").submit();
+                },
+                error: function (err){
+                    {#console.log(err);#}
+                    alert("修改建筑信息失败，请重试！");
+                }
+            });
+        };
+        cbClick = function createBuildingInfo(){
+            let building_id = $("#buildingIdCre").val();
+            let building_name = $("#buildingNameCre").val();
+            let address = $("#addressCre").val();
+            let area = $("#areaCre").val();
+            let building_type = $("#buildingTypeCre").val();
+            let cold_source = $("#coldSourceCre").val();
+            let terminal_type = $("#terminalTypeCre").val();
+            let building_obj = {"user_id":'{{ user_profile['user_id'] }}', "building_id": building_id,
+                                "building_name": building_name, "building_type": building_type, "address": address,
+                                "area": area, "cold_source": cold_source, "terminal_type": terminal_type};
+            $.ajax({
+                type: "POST",
+                url: '{{ url_for('createBuildingInfo') }}',
+                contentType: "application/json;charset=UTF-8",
+                async: true,
+                data: JSON.stringify(building_obj),
+                dataType: "text",
+                success: function(msg){
+                    {#console.log(msg);#}
+                    alert("新建建筑信息成功！");
+                    $("#buildingCreateForm").submit();
+                },
+                error: function (err){
+                    {#console.log(err);#}
+                    alert("新建建筑信息失败，请重试！");
+                }
+            });
+        };
+        dbClick = function deleteBuildingInfo(){
+            let building_id = $("#buildingId2").val();
+            let building_name = $("#buildingName2").val();
+            let building_obj = {"user_id":'{{ user_profile['user_id'] }}', "building_id": building_id,
+                                "building_name": building_name};
+            $.ajax({
+                type: "POST",
+                url: '{{ url_for('deleteBuildingInfo') }}',
+                contentType: "application/json;charset=UTF-8",
+                async: true,
+                data: JSON.stringify(building_obj),
+                dataType: "text",
+                success: function(msg){
+                    {#console.log(msg);#}
+                    alert("删除建筑信息成功！");
+                    $("#buildingDeleteForm").submit();
+                },
+                error: function (err){
+                    {#console.log(err);#}
+                    alert("删除建筑信息失败，请重试！");
+                }
+            });
+        };
+        function jumpToBuildingData(){
+            {#console.log(this);#}
+            let index_obj = JSON.stringify({'startIndex': parseInt(this.id.substring(this.id.indexOf('_')+1))});
+            {#console.log(index_obj)#}
+            $.ajax({
+                type: "POST",
+                url: '{{ url_for('showBuildingInfo') }}',
+                contentType: "application/json;charset=UTF-8",
+                async: true,
+                data: index_obj,
+                dataType: "text",
+                success: function(msg){
+                    {#console.log(msg);#}
+                    {#alert("查询建筑数据成功！");#}
+                    window.location.href = '{{ url_for('building', username=username) }}';
+                },
+                error: function (err){
+                    {#console.log(err);#}
+                    alert("查询建筑数据失败，请重试！");
+                }
+            });
+        }
+        {# 打开修改建筑信息页面时显示当前对应的建筑信息 #}
+        function openModifyBuildingModal(){
+            {#console.log(this);#}
+            let index = this.id.substring(this.id.indexOf('_')+1);
+            startIndex = index;
+            let id = "building_" + index;
+            {#console.log(id);#}
+            let trow = document.getElementById(id);
+            {#console.log(trow)#}
+            let tDataList = trow.getElementsByTagName('td');
+            {#console.log(tDataList)#}
+            $("#buildingId").val(tDataList[0].innerHTML);
+            $("#ownerId").val('{{ user_profile.user_id }}');
+            $("#buildingName").val(tDataList[1].innerHTML);
+            $("#buildingType").val(tDataList[2].innerHTML);
+            $("#area").val(tDataList[3].innerHTML);
+            $("#address").val(tDataList[4].innerHTML);
+            let csSelList = document.getElementById('selectColdSource').options;
+            {#console.log(csSelList);#}
+            for (var i = 0; i < csSelList.length; i++){
+                if (csSelList[i].value === tDataList[5].innerHTML)  // 根据option标签的value来进行判断
+                {
+                    csSelList[i].selected = true;
+                }
+            }
+            $("#coldSource").val(tDataList[5].innerHTML);
+            let tySelList = document.getElementById('selectTermType').options;
+            {#console.log(tySelList);#}
+            for (var i = 0; i < tySelList.length; i++){
+                if (tySelList[i].value === tDataList[6].innerHTML)  // 根据option标签的value来进行判断
+                {
+                    tySelList[i].selected = true;
+                }
+            }
+            $("#terminalType").val(tDataList[6].innerHTML);
+            let btn = document.getElementById("modifyBuildingBtn");
+            btn.setAttribute("bid", tDataList[0].innerHTML);
+        }
+        {# 打开删除框时给修改确认按钮对应的建筑id #}
+        function openDeleteBuildingModal(){
+            let index = this.id.substring(this.id.indexOf('_')+1);
+            let id = "building_" + index;
+            {#console.log(id);#}
+            let trow = document.getElementById(id);
+            let tDataList = trow.getElementsByTagName('td');
+            $("#buildingId2").val(tDataList[0].innerHTML);
+            $("#buildingName2").val(tDataList[1].innerHTML);
+            let btn = document.getElementById("deleteBuildingBtn");
+            btn.setAttribute("bid", tDataList[0].innerHTML);
+        }
+        $(window).on("load",function () {
+            let pbtn = document.getElementById('modifyConfirmBtn');
+            pbtn.onclick = mpClick;
+            let cbBtn = document.getElementById('createBuildingBtn');
+            cbBtn.onclick = cbClick;
+            let mbBtn = document.getElementById('modifyBuildingBtn');
+            mbBtn.onclick = mbClick;
+            let dbBtn = document.getElementById('deleteBuildingBtn');
+            dbBtn.onclick = dbClick;
+            let dataInfoBtns = document.getElementsByClassName('btn btn-sm btn-primary btn-icon-split');
+            for(var i = 0; i < dataInfoBtns.length; i++){
+                dataInfoBtns[i].onclick = jumpToBuildingData;
+            }
+            let modifyBtns = document.getElementsByClassName('btn btn-sm btn-success btn-icon-split');
+            {#console.log("modifyBtns size: " + modifyBtns.length)#}
+            for(var i = 0; i < modifyBtns.length; i++){
+                modifyBtns[i].onclick = openModifyBuildingModal;
+            }
+            let deleteBtns = document.getElementsByClassName('btn btn-sm btn-danger btn-icon-split');
+            {#console.log("modifyBtns size: " + deleteBtns.length)#}
+            for(var i = 0; i < deleteBtns.length; i++){
+                deleteBtns[i].onclick = openDeleteBuildingModal;
+            }
+        })
+        {# 打开修改个人信息页面时选中用户当前性别 #}
+        $("#modifySwitch").on("click", function (){
+            let sel = document.getElementById("select");
+            let obj = {'M':0, 'F': 1, 'U': 2};
+            sel[obj['{{ user_profile['gender'] }}']].selected=true;
+            $("#userid").val('{{ user_profile['user_id'] }}');
+            $("#username").val('{{ user_profile['username'] }}');
+            $("#reg_time").val('{{ user_profile['register_time'] }}');
+            $("#gender").val('{{ user_profile['gender'] }}');
+            $("#profession").val('{{ user_profile['profession'] }}');
+            $("#belong").val('{{ user_profile['belong'] }}');
+        });
+        $(function () {
+            let obj = {'男': 'M', '女': 'F', '保密': 'U'};
+            $("#select").change(function(){
+                $("#gender").val(obj[$(this).children('option:selected').val()]);
+            });
+            $("#selectColdSourceCre").change(function(){
+                $("#coldSourceCre").val($(this).children('option:selected').val());
+            });
+            $("#selectTermTypeCre").change(function(){
+                $("#terminalTypeCre").val($(this).children('option:selected').val());
+            });
+            $("#selectColdSource").change(function(){
+                $("#coldSource").val($(this).children('option:selected').val());
+            });
+            $("#selectTermType").change(function(){
+                $("#terminalType").val($(this).children('option:selected').val());
+            });
+        })
+
+    </script>
+
+</body>
+
+</html>
