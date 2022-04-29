@@ -21,6 +21,7 @@
     <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
     <!-- Custom styles for this page -->
     <link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/avatar.css') }}" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -148,7 +149,7 @@
                         <li class="nav-item nav-link dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="img-profile rounded-circle"
+                                <img id ="avatarNav" class="img-profile rounded-circle"
                                     src="{{ url_for('static', filename='img/avatar/'+user_profile['avatar']) }}">
                                 <span class="mr-2 d-none d-lg-inline text-gray-800 small">&nbsp;&nbsp;{{ username }}</span>
                             </a>
@@ -201,68 +202,85 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col-lg-9 d-none d-lg-block">
-                                        <div class="p-5">
-                                            <div class="text-center">
-                                                <h1 class="h4 text-gray-900 mb-4">用户基本信息</h1>
+                                            <div class="p-5">
+                                                <div class="text-center">
+                                                    <h1 class="h4 text-gray-900 mb-4">用户基本信息</h1>
+                                                </div>
+                                                <form class="user">
+                                                    <div class="form-group row align-items-lg-baseline">
+                                                        <div class="h6 col-sm-2 mb-1 mb-sm-0 font-weight-bold text-primary mb-1">
+                                                            用户注册邮箱
+                                                        </div>
+                                                        <div class="col-sm-3 mb-3 mb-sm-0">
+                                                            <div class="h6 mb-0 font-weight-bold text-gray-800">{{ user_profile['username'] }}</div>
+                                                        </div>
+                                                        <div class="h6 col-sm-2 mb-1 mb-sm-0 font-weight-bold text-primary mb-1">
+                                                            性别
+                                                        </div>
+                                                        <div class="col-sm-3 mb-3 mb-sm-0">
+                                                            {% if user_profile['gender'] == 'U'  %}
+                                                            <div class="h6 mb-0 font-weight-bold text-gray-800">保密</div>
+                                                            {% elif user_profile['gender'] == 'M'  %}
+                                                            <div class="h6 mb-0 font-weight-bold text-gray-800">男</div>
+                                                            {% else %}
+                                                            <div class="h6 mb-0 font-weight-bold text-gray-800">女</div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row align-items-lg-baseline">
+                                                        <div class="h6 col-sm-2 mb-1 mb-sm-0 font-weight-bold text-primary mb-1">
+                                                            职业/专业
+                                                        </div>
+                                                        <div class="col-sm-3 mb-3 mb-sm-0">
+                                                            <div class="h6 mb-0 font-weight-bold text-gray-800">{{ user_profile['profession'] }}</div>
+                                                        </div>
+                                                        <div class="h6 col-sm-2 mb-1 mb-sm-0 font-weight-bold text-primary mb-1">
+                                                            工作单位
+                                                        </div>
+                                                        <div class="col-sm-3 mb-3 mb-sm-0">
+                                                            <div class="h6 mb-0 font-weight-bold text-gray-800">{{ user_profile['belong'] }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="form-group row align-items-lg-baseline">
+                                                        <div class="h6 col-sm-3 mb-2 mb-sm-0 font-weight-bold text-primary mb-1">
+                                                            管理建筑数量
+                                                        </div>
+                                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                                            <div class="h6 mb-0 font-weight-bold text-gray-800">{{ bl.data|length }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row align-items-lg-baseline">
+                                                        <div class="h6 col-sm-3 mb-2 mb-sm-0 font-weight-bold text-primary mb-1">
+                                                            可下载评估报告数量
+                                                        </div>
+                                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                                            <div class="h6 mb-0 font-weight-bold text-gray-800">{{ data_cnt }}</div>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
-                                            <form class="user">
-                                                <div class="form-group row align-items-lg-baseline">
-                                                    <div class="h6 col-sm-2 mb-1 mb-sm-0 font-weight-bold text-primary mb-1">
-                                                        用户名
-                                                    </div>
-                                                    <div class="col-sm-3 mb-3 mb-sm-0">
-                                                        <div class="h6 mb-0 font-weight-bold text-gray-800">{{ user_profile['username'] }}</div>
-                                                    </div>
-                                                    <div class="h6 col-sm-2 mb-1 mb-sm-0 font-weight-bold text-primary mb-1">
-                                                        性别
-                                                    </div>
-                                                    <div class="col-sm-3 mb-3 mb-sm-0">
-                                                        {% if user_profile['gender'] == 'U'  %}
-                                                        <div class="h6 mb-0 font-weight-bold text-gray-800">保密</div>
-                                                        {% elif user_profile['gender'] == 'M'  %}
-                                                        <div class="h6 mb-0 font-weight-bold text-gray-800">男</div>
-                                                        {% else %}
-                                                        <div class="h6 mb-0 font-weight-bold text-gray-800">女</div>
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row align-items-lg-baseline">
-                                                    <div class="h6 col-sm-2 mb-1 mb-sm-0 font-weight-bold text-primary mb-1">
-                                                        职业/专业
-                                                    </div>
-                                                    <div class="col-sm-3 mb-3 mb-sm-0">
-                                                        <div class="h6 mb-0 font-weight-bold text-gray-800">{{ user_profile['profession'] }}</div>
-                                                    </div>
-                                                    <div class="h6 col-sm-2 mb-1 mb-sm-0 font-weight-bold text-primary mb-1">
-                                                        工作单位
-                                                    </div>
-                                                    <div class="col-sm-3 mb-3 mb-sm-0">
-                                                        <div class="h6 mb-0 font-weight-bold text-gray-800">{{ user_profile['belong'] }}</div>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <div class="form-group row align-items-lg-baseline">
-                                                    <div class="h6 col-sm-3 mb-2 mb-sm-0 font-weight-bold text-primary mb-1">
-                                                        管理建筑数量
-                                                    </div>
-                                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                                        <div class="h6 mb-0 font-weight-bold text-gray-800">{{ bl.data|length }}</div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row align-items-lg-baseline">
-                                                    <div class="h6 col-sm-3 mb-2 mb-sm-0 font-weight-bold text-primary mb-1">
-                                                        可下载评估报告数量
-                                                    </div>
-                                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                                        <div class="h6 mb-0 font-weight-bold text-gray-800">{{ data_cnt }}</div>
-                                                    </div>
-                                                </div>
-                                            </form>
                                         </div>
-                                    </div>
-                                        <div class="col-lg-2">
-                                            <img class="card-img img-thumbnail rounded-circle"
-                                                src="{{ url_for('static', filename='img/avatar/' + user_profile['avatar']) }}">
+                                        <div class="col-lg-3">
+                                            <table class="table table-borderless" id="avatarTable" width="100%" cellspacing="0">
+                                                <tbody>
+                                                    <tr class="text-center">
+                                                        <td>
+                                                        <a id="aw" class="avatar-wrapper">
+                                                            <img id="avatarBg" class="card-img img-thumbnail rounded-circle"
+                                                                src="{{ url_for('static', filename='img/avatar/' + user_profile['avatar']) }}">
+                                                        </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="text-center">
+                                                        <td>
+                                                        <a id="changeAvatarBtn" href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                                                        data-toggle="modal" data-target="#avatarChangeModal">
+                                                        <i class="fas fa-camera text-white-50"></i> 点击更换头像</a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -382,6 +400,12 @@
             </footer>
             <!-- End of Footer -->
 
+            <div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;">
+                <div id="innerdiv" style="position:absolute;">
+                    <img id="bigimg" src="" />
+                </div>
+            </div>
+
         </div>
         <!-- End of Content Wrapper -->
 
@@ -434,7 +458,7 @@
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
-                                    <label>用户名</label>
+                                    <label>用户注册邮箱</label>
                                     <input id="username" name="uesrname" type="text"  class="form-control" value="{{ user_profile['username'] }}" readonly="readonly"/>
                                 </div>
                             </div>
@@ -693,6 +717,134 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="avatarChangeModal" tabindex="-1" role="dialog" aria-labelledby="avatarChangeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">修改用户头像</h5>
+                    <button id="cancelAvatarChangeBtn1" class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-borderless" id="avatarTable" width="100%" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td style="width: 60%" rowspan="2" colspan="3">
+                                    <img id="originAvatar1"  class="card-img img-thumbnail avatar-img"
+                                         src="{{ url_for('static', filename='img/avatar/' + user_profile['avatar']) }}">
+                                </td>
+                                <td style="width: 40%; vertical-align: middle;text-align: center;align-content: center" colspan="2" class="bg-gray-100">
+                                    <span class="text-black-50">头像预览<br/><span class="text-primary text-xs">100×100px</span></span><br/>
+                                    <img id="originAvatar2"  class="card-img img-thumbnail avatar-img" style="width: 100px; height: 100px; top:50%; left: 20%; float: left;position: relative"
+                                     src="{{ url_for('static', filename='img/avatar/' + user_profile['avatar']) }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 40%; vertical-align: middle;text-align: center;align-content: center" colspan="2" class="bg-gray-100">
+                                    <span class="text-xs text-primary">50×50px</span><br/>
+                                    <img id="originAvatar3"  class="card-img img-thumbnail avatar-img" style="width: 50px; height: 50px; top:50%; left: 35%; float: left;position: relative"
+                                     src="{{ url_for('static', filename='img/avatar/' + user_profile['avatar']) }}">
+                                </td>
+                            </tr>
+                            <tr class="bg-gray-100">
+                                <td style="width: 100%;" colspan="5" class="text-center">
+                                    <span>默认可选头像</span><br/>
+                                </td>
+                            </tr>
+                            <tr id="arow2" class="bg-gray-100">
+                                <td style="width: 20%">
+                                    <a class="avatar-candidate-wrapper">
+                                    <img class="img-thumbnail"
+                                         src="{{ url_for('static', filename='img/avatar/boy.svg') }}">
+                                    </a>
+                                </td>
+                                <td style="width: 20%">
+                                    <a class="avatar-candidate-wrapper">
+                                    <img class="img-thumbnail"
+                                         src="{{ url_for('static', filename='img/avatar/girl.svg') }}">
+                                    </a>
+                                </td>
+                                <td style="width: 20%">
+                                    <a class="avatar-candidate-wrapper">
+                                    <img class="img-thumbnail"
+                                         src="{{ url_for('static', filename='img/avatar/male.svg') }}">
+                                    </a>
+                                </td>
+                                <td style="width: 20%">
+                                    <a class="avatar-candidate-wrapper">
+                                    <img class="img-thumbnail"
+                                         src="{{ url_for('static', filename='img/avatar/female.svg') }}">
+                                    </a>
+                                </td>
+                                <td style="width: 20%">
+                                    <a class="avatar-candidate-wrapper">
+                                    <img class="img-thumbnail"
+                                         src="{{ url_for('static', filename='img/avatar/undraw_profile_0.svg') }}">
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="arow2" class="bg-gray-100">
+                                <td style="width: 20%">
+                                    <a class="avatar-candidate-wrapper">
+                                    <img class="img-thumbnail"
+                                         src="{{ url_for('static', filename='img/avatar/undraw_profile_1.svg') }}">
+                                    </a>
+                                </td>
+                                <td style="width: 20%">
+                                    <a class="avatar-candidate-wrapper">
+                                    <img class="img-thumbnail"
+                                         src="{{ url_for('static', filename='img/avatar/undraw_profile_2.svg') }}">
+                                    </a>
+                                </td>
+                                <td style="width: 20%">
+                                    <a class="avatar-candidate-wrapper">
+                                    <img class="img-thumbnail"
+                                         src="{{ url_for('static', filename='img/avatar/undraw_profile_3.svg') }}">
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="avatar-candidate-wrapper">
+                                        <img class="img-thumbnail"
+                                             src="{{ url_for('static', filename='img/avatar/unknown_1.svg') }}">
+                                    </a>
+                                </td>
+                                <td style="width: 20%">
+                                    <a class="avatar-candidate-wrapper">
+                                    <img class="img-thumbnail"
+                                         src="{{ url_for('static', filename='img/avatar/unknown_2.svg') }}">
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr/>
+                    <form id="fileUploadForm" action="#" method="POST">
+                        <!-- 上传观测数据 -->
+                        <div class="row form-row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>上传本地图片作为头像(接收图片类型为.png/.jpg/.jpeg/.bmp/.svg)</label>
+                                    <div class="d-flex">
+                                        <input id="fileName" name="fileName" type="text" class="form-control-file col-10" required="required">
+                                        <button id="chooseFileBtn" type="button" class="form-control btn-secondary btn-sm btn-block border-0 col-2">
+                                            上传图片</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input id="avatarUpload" type="file" class="d-none" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" required="required">
+                        {{ aform.csrf_token }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="cancelAvatarChangeBtn2" class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
+                    <a id="changeAvatarConfirmBtn" class="btn btn-primary" href="#">确认</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
@@ -711,6 +863,8 @@
     <!-- Page level custom scripts -->
     <script src="{{ url_for('static', filename='js/demo/datatables-demo.js') }}"></script>
 
+    <script src="https://cdn.bootcss.com/layer/2.2/layer.js"></script>
+    <script src="https://cdn.bootcss.com/layer/2.2/extend/layer.ext.js"></script>
     <script>
         var startIndex;
         mpClick = function modifyPersonalFile(){
@@ -731,12 +885,22 @@
                 dataType: "text",
                 success: function(msg){
                     {#console.log(msg);#}
-                    alert("修改个人信息成功！");
-                    $("#profileModifyForm").submit();
+                    {#alert("修改个人信息成功！");#}
+                    layer.msg('修改个人信息成功！', {
+                        icon: 6,
+                        time: 1000
+                    });
+                    setTimeout(()=>{
+                        $("#profileModifyForm").submit();
+                    },1000);
                 },
                 error: function (err){
                     {#console.log(err);#}
-                    alert("修改个人信息失败，请重试！");
+                    {#alert("修改个人信息失败，请重试！");#}
+                    layer.msg('修改个人信息失败，请重试！', {
+                        icon: 5,
+                        time: 1000
+                    });
                 }
             });
         };
@@ -760,12 +924,20 @@
                 dataType: "text",
                 success: function(msg){
                     {#console.log(msg);#}
-                    alert("修改建筑信息成功！");
-                    $("#buildingModifyForm").submit();
+                    layer.msg('修改建筑信息成功！', {
+                        icon: 6,
+                        time: 1000
+                    });
+                    setTimeout(()=>{
+                        $("#buildingModifyForm").submit();
+                    },500);
                 },
                 error: function (err){
                     {#console.log(err);#}
-                    alert("修改建筑信息失败，请重试！");
+                    layer.msg('修改建筑信息失败，请重试！', {
+                        icon: 5,
+                        time: 1000
+                    });
                 }
             });
         };
@@ -789,12 +961,20 @@
                 dataType: "text",
                 success: function(msg){
                     {#console.log(msg);#}
-                    alert("新建建筑信息成功！");
-                    $("#buildingCreateForm").submit();
+                    layer.msg('新建建筑信息成功！', {
+                        icon: 6,
+                        time: 1000
+                    });
+                    setTimeout(()=>{
+                        $("#buildingCreateForm").submit();
+                    },500);
                 },
                 error: function (err){
                     {#console.log(err);#}
-                    alert("新建建筑信息失败，请重试！");
+                    layer.msg('新建建筑信息失败，请重试！', {
+                        icon: 5,
+                        time: 1000
+                    });
                 }
             });
         };
@@ -812,12 +992,20 @@
                 dataType: "text",
                 success: function(msg){
                     {#console.log(msg);#}
-                    alert("删除建筑信息成功！");
-                    $("#buildingDeleteForm").submit();
+                    layer.msg('删除建筑信息成功！', {
+                        icon: 6,
+                        time: 1000
+                    });
+                    setTimeout(()=>{
+                        $("#buildingDeleteForm").submit();
+                    },500);
                 },
                 error: function (err){
                     {#console.log(err);#}
-                    alert("删除建筑信息失败，请重试！");
+                    layer.msg('删除建筑信息失败，请重试！', {
+                        icon: 5,
+                        time: 1000
+                    });
                 }
             });
         };
@@ -839,7 +1027,10 @@
                 },
                 error: function (err){
                     {#console.log(err);#}
-                    alert("查询建筑数据失败，请重试！");
+                    layer.msg('查询建筑数据失败，请重试！', {
+                        icon: 5,
+                        time: 1000
+                    });
                 }
             });
         }
@@ -893,6 +1084,24 @@
             let btn = document.getElementById("deleteBuildingBtn");
             btn.setAttribute("bid", tDataList[0].innerHTML);
         }
+        function checkUpload(msg){
+            var data = JSON.parse(msg);
+            if(data['state']==0){
+                layer.msg('修改用户头像成功！', {
+                    icon: 6,
+                    time: 1000
+                });
+                // 刷新页面
+                setTimeout(function(){
+                    $("#fileUploadForm").submit();
+                }, 500);
+            }else{
+                layer.msg('修改头像失败！', {
+                    icon: 5,
+                    time: 1000
+                });
+            }
+        }
         $(window).on("load",function () {
             let pbtn = document.getElementById('modifyConfirmBtn');
             pbtn.onclick = mpClick;
@@ -916,7 +1125,161 @@
             for(var i = 0; i < deleteBtns.length; i++){
                 deleteBtns[i].onclick = openDeleteBuildingModal;
             }
+            $("#avatarBg").click(function(){
+                {#let src = '/static/' + '{{ 'img/avatar/' + user_profile['avatar'] }}';#}
+                var _this = $(this)
+                imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
+            })
+            var tip_index = 0;
+            $(document).on('mouseenter', '#aw', function(){
+                tip_index = layer.tips('点击可查看大图', '#aw', {tips:[2, '#4e73df'],time: 0});
+            }).on('mouseleave', '#aw', function(){
+                layer.close(tip_index);
+            });
+            let avatarFile = document.getElementById('avatarUpload');
+            avatarFile.onchange = ()=>{
+                imgPreview(avatarFile);
+            }
+            $("#chooseFileBtn").click(function(){
+                // 清空之前的图片
+                $("#avatarUpload").val("");
+                $("#avatarUpload").click();
+            });
+            let candidates = document.getElementsByClassName('avatar-candidate-wrapper');
+            {#console.log(candidates)#}
+            for(var i = 0; i < candidates.length; i++){
+                let img = candidates[i].children[0];
+                candidates[i].onclick = function(){
+                    changePic(img.src);
+                    $("#avatarUpload").val("");
+                }
+            }
+            $("#cancelAvatarChangeBtn1").click(function(){
+                setTimeout(function(){
+                    changePic('{{ url_for('static', filename='img/avatar/' + user_profile['avatar']) }}');
+                    $("#avatarUpload").val("");
+                },500);
+            })
+            $("#cancelAvatarChangeBtn2").click(function(){
+                setTimeout(function(){
+                    changePic('{{ url_for('static', filename='img/avatar/' + user_profile['avatar']) }}');
+                    $("#avatarUpload").val("");
+                },500);
+            })
+            $("#changeAvatarConfirmBtn").click(function(){
+                /* 检查avatar的链接是否和origin一样，一样则关闭，若不一样则发送修改头像的请求 */
+                let oriSrc = '{{ url_for('static', filename='img/avatar/' + user_profile['avatar']) }}';
+                let avatar1 = document.getElementById('originAvatar1');
+                let curSrc = avatar1.src;
+                if($("#avatarUpload").val() != "" || (oriSrc.search(curSrc) == -1 && curSrc.search(oriSrc) == -1)){
+                    curSrc = curSrc.substring(curSrc.lastIndexOf('/')+1);
+                    if($("#avatarUpload").val() != ""){
+                        var formData = new FormData();
+                        formData.append('file', $('#avatarUpload')[0].files[0]);  //添加图片信息的参数
+                        {#formData.append('username', '{{ username }}');#}
+                        $.ajax({
+                            url: '{{ url_for('uploadAvatarLocal', username=username) }}',
+                            type: 'POST',
+                            cache: false, //上传文件不需要缓存
+                            data: formData,
+                            processData: false, // 告诉jQuery不要去处理发送的数据
+                            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                            dataType: 'text',
+                            clearForm: true,
+                            xhr: function(){
+                                // 手工构造一个请求对象，用这个对象来发送表单数据
+                                // 设置 progress, load, error, abort 4个事件处理器
+                                var request = new XMLHttpRequest();
+                                return request;
+                            },
+                            success: function (msg) {
+                                checkUpload(msg);
+                            },
+                            error: function (msg) {
+                                layer.msg('头像上传失败！', {
+                                    icon: 5,
+                                    time: 1000
+                                });
+                            }
+                        })
+                    }else{
+                        let userObj = {'username': '{{ username }}', 'src': curSrc, 'type': 'system'};
+                        $.ajax({
+                            url: '{{ url_for('uploadAvatarSystem') }}',
+                            type: 'POST',
+                            contentType: "application/json;charset=UTF-8",
+                            async: true,
+                            data: JSON.stringify(userObj),
+                            dataType: "text",
+                            success: function(msg){
+                                checkUpload(msg);
+                            },
+                            error: function (err){
+                                layer.msg('修改用户头像失败，请重试！', {
+                                icon: 5,
+                                time: 1000
+                            });
+                            }
+                        })
+                    }
+                }else{
+                    layer.msg('修改用户头像成功！', {
+                        icon: 6,
+                        time: 500
+                    });
+                    setTimeout(function(){
+                        $("#cancelAvatarChangeBtn2").click();
+                    },300);
+                }
+            })
         })
+        function changePic(src){
+            $("#originAvatar1").attr('src', src);
+            $("#originAvatar2").attr('src', src);
+            $("#originAvatar3").attr('src', src);
+            $('#fileName').val("");
+        }
+        function imgPreview(fileDom) {
+            //判断是否支持FileReader
+            if(window.FileReader) {
+                var reader = new FileReader();
+            } else {
+                alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+            }
+            //获取文件
+            var file = fileDom.files[0];
+            var imageType = /^image\//;
+            //是否是图片
+            if(!imageType.test(file.type)) {
+                alert("请选择图片！");
+                return;
+            }
+            var fileValue = $("#avatarUpload").val()
+            //获取文件名+扩展名
+            var fileName = fileValue.split("\\").pop();
+            //获取文件名
+            fileName = fileName.substring(0, fileName.lastIndexOf("."));
+            //获取文件的扩展名
+            var fileExt = fileValue.substr(fileValue.lastIndexOf("."));
+            $('#fileName').val(fileName+fileExt);
+            //读取完成
+            reader.onload = function(e) {
+                {#console.log("图片读取成功！")#}
+                //图片路径设置为读取的图片
+                changePic(e.target.result);
+                //input框显示文件名
+                var fileValue = $("#avatarUpload").val()
+                //获取文件名+扩展名
+                var fileName = fileValue.split("\\").pop();
+                //获取文件名
+                fileName = fileName.substring(0, fileName.lastIndexOf("."));
+                //获取文件的扩展名
+                var fileExt = fileValue.substr(fileValue.lastIndexOf("."));
+                $('#fileName').val(fileName+fileExt);
+            };
+            reader.readAsDataURL(file);
+        }
+
         {# 打开修改个人信息页面时选中用户当前性别 #}
         $("#modifySwitch").on("click", function (){
             let sel = document.getElementById("select");
@@ -947,7 +1310,51 @@
                 $("#terminalType").val($(this).children('option:selected').val());
             });
         })
-
+        function imgShow(outerdiv, innerdiv, bigimg){
+	        var src = $('#avatarBg').attr("src");
+	        $(bigimg).attr("src", src);//设置#bigimg元素的src属性
+            /*获取当前点击图片的真实大小，并显示弹出层及大图*/
+            // 创建对象
+            var img = new Image()
+            // 改变图片的src
+            img.src = src;
+            // 加载完成执行
+            img.onload = function() {
+                var windowW = $(window).width();//获取当前窗口宽度
+                var windowH = $(window).height();//获取当前窗口高度
+                if(src.substring(src.lastIndexOf('.')+1) != 'svg'){
+                    var realWidth = img.width;//获取图片真实宽度
+                    var realHeight = img.height;//获取图片真实高度
+                }else{
+                    var realWidth = 720;
+                    var realHeight = 720;
+                }
+                var imgWidth, imgHeight;
+                var scale = 0.8;//缩放尺寸，当图片真实宽度和高度大于窗口宽度和高度时进行缩放
+                if (realHeight > windowH * scale) {//判断图片高度
+                    imgHeight = windowH * scale;//如大于窗口高度，图片高度进行缩放
+                    imgWidth = imgHeight / realHeight * realWidth;//等比例缩放宽度
+                    if (imgWidth > windowW * scale) {//如宽度扔大于窗口宽度
+                        imgWidth = windowW * scale;//再对宽度进行缩放
+                    }
+                } else if (realWidth > windowW * scale) {//如图片高度合适，判断图片宽度
+                    imgWidth = windowW * scale;//如大于窗口宽度，图片宽度进行缩放
+                    imgHeight = imgWidth / realWidth * realHeight;//等比例缩放高度
+                } else {//如果图片真实高度和宽度都符合要求，高宽不变
+                    imgWidth = realWidth;
+                    imgHeight = realHeight;
+                }
+                {#console.log(imgHeight, imgWidth);#}
+                $(bigimg).css("width", imgWidth);//以最终的宽度对图片缩放
+                var w = (windowW - imgWidth) / 2;//计算图片与窗口左边距
+                var h = (windowH - imgHeight) / 2;//计算图片与窗口上边距
+                $(innerdiv).css({"top": h, "left": w});//设置#innerdiv的top和left属性
+                $(outerdiv).fadeIn("fast");//淡入显示#outerdiv及.pimg
+                $(outerdiv).click(function () {//再次点击淡出消失弹出层
+                    $(this).fadeOut("fast");
+                });
+            };
+        }
     </script>
 
 </body>

@@ -7,6 +7,7 @@ mysql:
  password: '123456'
  dbname: 'zht_project'
  user_table: 'user_info'
+ code_table: 'user_valid_code'
  user_profile: 'user_profile'
  building_table: 'building_info'
  data_info: 'building_data'
@@ -17,4 +18,5 @@ app:
  UPLOAD_FOLDER: './dataSheets'
  JSON_FOLDER: './dataJson'
  REPORT_FOLDER: './reports'
- ALLOWED_EXTENSIONS: {'xls', 'xlsx', 'csv'}
+ AVATAR_FOLDER: './static/img/avatar'
+ ALLOWED_EXTENSIONS: {'xls', 'xlsx', 'csv', 'jpeg', 'jpg', 'bmp', 'png', 'svg'}

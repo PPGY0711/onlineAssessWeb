@@ -67,3 +67,16 @@ class dataDeleteForm(FlaskForm):
     building_name = StringField('Building Name', validators=[DataRequired()])
     case_id = StringField('Case Id', validators=[DataRequired()])
     data_type = StringField('Data Type', validators=[DataRequired()])
+
+
+class resetPwdForm(FlaskForm):
+    email = StringField('Email Address', validators=[DataRequired()])
+    validCode = StringField('Validation Code', validators=[DataRequired()])
+    password = StringField('Password', validators=[DataRequired()])
+    password2 = StringField('Second password', validators=[DataRequired()])
+
+
+class avatarForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    FileName = StringField('File Name', validators=[DataRequired()])
+    FileId = StringField('File Id', validators=[DataRequired()])

@@ -17,7 +17,11 @@ import matplotlib.ticker as mtick
 import os
 import matplotlib
 import seaborn as sns
-import json
+# import json
+import random
+import smtplib
+from email.mime.text import MIMEText
+from email.utils import formataddr
 
 # 指定默认字体（没用上，黑体用宋体替代了）
 CHINESE_FONT = 'SimHei'
@@ -50,6 +54,37 @@ def generateUUID():
         val = int(id[start:end], 16)
         buffer.append(array[val % 62])
     return "".join(buffer)
+
+def get_code():
+    code = ''
+    for i in range(6):
+        add = random.choice([random.randrange(10), chr(random.randrange(65, 91)), chr(random.randrange(97, 123))])
+        code += str(add)
+    print(code)
+    return code
+
+
+def sendEmail(content, addr, subject):
+    # 第三方 SMTP 服务
+    mail_host = "smtp.163.com"  # 设置服务器
+    mail_user = "hvac_sig@163.com"  # 用户名
+    mail_pass = "BQHWXMTLUJTOFNLL"  # 口令
+    sender = 'hvac_sig@163.com'
+    receivers = addr  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
+    mail_msg = content
+    msg = MIMEText(mail_msg, 'html', 'utf-8')
+    msg['From'] = formataddr(["HVAC-SIG", sender])  # 括号里的对应发件人邮箱昵称、发件人邮箱账号
+    msg['To'] = formataddr(["User", addr])  # 括号里的对应收件人邮箱昵称、收件人邮箱账号
+    msg['Subject'] = subject  # 邮件的主题，也可以说是标题
+
+    try:
+        smtpObj = smtplib.SMTP()
+        smtpObj.connect(mail_host, 25)  # 25 为 SMTP 端口号
+        smtpObj.login(mail_user, mail_pass)
+        smtpObj.sendmail(sender, receivers, msg.as_string())
+        return 0
+    except smtplib.SMTPException:
+        return 1
 
 
 # def makePdf(flag, data, pdfFileName, listPages):
@@ -867,5 +902,5 @@ if __name__ == '__main__':
     # data, _, _ = LineFit.readFromJSON('./dataJson/uDkkIYF1.json')
     # lf = LineFit(jsonData={'records': data}, coldSource="风冷冷水机组", figPath='./curveFitPics', caseId='IepcJj0x')
     # lf.fit_short_term_data()
-    caseInfo = {'caseId': 'uDkkIYF1', 'coldSource': "风冷冷水机组"}
-    LineFit.generateReportOfDataCase(caseInfo, './dataJson', './curveFitPics')
+    # caseInfo = {'caseId': 'uDkkIYF1', 'coldSource': "风冷冷水机组"}
+    get_code()

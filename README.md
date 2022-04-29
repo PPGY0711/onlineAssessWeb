@@ -61,22 +61,35 @@
 
   - 用户信息表：```(<u>userid</u>, username, password(加密字符串))```
 
-  - ``` sql
+  - ```sql 
     create table if not exists `user_info`(
       `user_id` CHAR(8) NOT NULL,
-      `user_name` VARCHAR(20) NOT NULL,
+      `user_name` VARCHAR(50) NOT NULL,
       `password` VARCHAR(200) NOT NULL,
       PRIMARY KEY(`user_id`)
     )ENGINE=InnoDB DEFAULT CHARSET=utf8;
     ```
 
-  - 用户资料表：```(<u>userid</u>, gender, profession, belong, register_time)```
+  - 用户验证码表：```(<u>username</u>, code)```
 
+  - ``` sql
+    create table if not exists `user_valid_code`(
+      `seq` INT UNSIGNED AUTO_INCREMENT,
+      `user_id` CHAR(8) NOT NULL,
+      `code` VARCHAR(10) NOT NULL,
+      `sendTime` datetime NOT NULL,
+      PRIMARY KEY(`seq`),
+      FOREIGN KEY(`user_id`) REFERENCES `user_info` (`user_id`)
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    ```
+    
+  - 用户资料表：```(<u>userid</u>, gender, profession, belong, register_time)```
+  
   - ``` sql
     create table if not exists `user_profile`(
       `record_id` INT UNSIGNED AUTO_INCREMENT,
       `user_id` CHAR(8) NOT NULL,
-      `user_name` VARCHAR(20) NOT NULL,
+      `user_name` VARCHAR(50) NOT NULL,
       `avatar` VARCHAR(255) DEFAULT 'unknown_1.svg',
       `gender` CHAR(1) DEFAULT 'U',
       `profession` VARCHAR(30) DEFAULT 'UNKNOWN',

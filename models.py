@@ -33,6 +33,8 @@ class User(UserMixin):
 
     def verify_password(self, password):
         password_hash = self.get_password_hash()
+        print(password_hash)
+        # print(password)
         if password_hash is None:
             return False
         return check_password_hash(self.password_hash, password)
@@ -80,6 +82,25 @@ class User(UserMixin):
         self.profile = profile
 
     @staticmethod
+    def modify_password(username, password, dbs):
+        id = User.get_id_static(username, dbs)
+        password_hash = generate_password_hash(password)
+        table = dbs.db_obj['user_table']
+        # SQL 插入语句
+        sql = """UPDATE {table} set password = '{password}'
+              WHERE user_id = '{id}';""".format(table=table, id=id, password=password_hash)
+        dbs.execute(sql, fetch_type=2)
+
+    @staticmethod
+    def modify_avatar(username, avatarUrl, dbs):
+        id = User.get_id_static(username, dbs)
+        table = dbs.db_obj['user_profile']
+        # SQL 插入语句
+        sql = """UPDATE {table} set avatar = '{url}'
+              WHERE user_id = '{id}';""".format(table=table, id=id, url=avatarUrl)
+        dbs.execute(sql, fetch_type=2)
+
+    @staticmethod
     def get(user_id, dbs):
         """try to return user_id corresponding User object.
         This method is used by load_user callback function
@@ -116,7 +137,7 @@ class User(UserMixin):
     def register(username, password, dbs):
         """Register a new user: save user name, id and password hash to database"""
         password_hash = generate_password_hash(password)
-        print("新用户注册：\n用户名：{username}\n加密密码：{phash}".format(username=username, phash=password_hash))
+        # print("新用户注册：\n用户名：{username}\n加密密码：{phash}".format(username=username, phash=password_hash))
         table = dbs.db_obj['user_table']
         profile = dbs.db_obj['user_profile']
         uid = generateUUID()
@@ -148,6 +169,49 @@ class User(UserMixin):
             profile['belong'] = data[5]
             profile['register_time'] = data[6].strftime("%Y-%m-%d %H:%M:%S")
         return profile
+
+    @staticmethod
+    def get_id_static(username, dbs):
+        """get user id from profile file, if not exist, it will
+        generate a uuid for the user.
+        """
+        if username is not None:
+            table = dbs.db_obj["user_table"]
+            sql = """select user_id, password from {table} 
+                      where user_name = '{username}';""".format(table=table, username=username)
+            data = dbs.execute(sql=sql)
+            return data[0] if data is not None else None
+        else:
+            return None
+
+    @staticmethod
+    def verify_code(username, code, inputTime, dbs):
+        id = User.get_id_static(username, dbs)
+        if id is not None:
+            table = dbs.db_obj['code_table']
+            sql = """SELECT sendTime from {table}
+                     WHERE user_id = '{id}' and code = '{code}';""".format(table=table, id=id, code=code)
+            data = dbs.execute(sql=sql)
+            print(data)
+            if data is not None:
+                sendTime = data[0]
+                inputTime = datetime.datetime.strptime(inputTime, '%Y-%m-%d %H:%M:%S')
+                if (inputTime-sendTime).seconds > 120:
+                    return {'msg': 'expired'}
+                else:
+                    return {'msg': 'valid'}
+            else:
+                return {'msg': 'error'}
+        else:
+            return {'msg': 'not exist'}
+
+    @staticmethod
+    def insert_code(username, code, sendTime, dbs):
+        id = User.get_id_static(username, dbs)
+        table = dbs.db_obj['code_table']
+        sql = """insert into {table} (user_id, code, sendTime)
+                 VALUES ('{id}', '{code}', '{sendTime}')""".format(table=table, id=id, code=code, sendTime=sendTime)
+        dbs.execute(sql=sql, fetch_type=2)
 
 
 class Building:

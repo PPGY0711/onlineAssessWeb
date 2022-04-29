@@ -30,7 +30,7 @@
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
-                    <div class="col-lg-6 d-none d-lg-block">
+                    <div class="col-lg-6 d-none d-lg-flex">
                         <img src="{{ url_for('static', filename='img/bg_arch.jpeg') }}" class="bg-login-image">
                     </div>
                     <div class="col-lg-6">
@@ -41,25 +41,33 @@
                             <form id="registerForm" class="user" name="register" action="{{ url_for("register") }}" method="POST">
                                 <div class="form-group">
                                     <input type="text" name="username" class="form-control form-control-user" id="inputUsername"
-                                        placeholder="Username">
+                                        placeholder="请输入邮箱">
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="password" name="password" class="form-control form-control-user"
-                                            id="inputPassword" placeholder="Password">
+                                            id="inputPassword" placeholder="请输入密码" maxlength="20">
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="password" name="repeatPassword" class="form-control form-control-user"
-                                            id="repeatPassword" placeholder="Repeat Password">
+                                            id="repeatPassword" placeholder="请再次输入密码" maxlength="20">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-auto">
+                                        <div id="pwdDiv" class="text-center text-xs text-success">
+                                            <i class="fas fa-info-circle"></i>
+                                                您的密码应当为字母[A-Z,a-z]和数字[0-9]的任意组合，长度为8-20个字符。
+                                        </div>
                                     </div>
                                 </div>
                                 <input id="registerBtn" type="button" class="btn btn-primary btn-user btn-block" value="注册">
                                 {{ form.csrf_token }}
-                                <div id="msgDiv" class="text-center"></div>
+                                <div id="msgDiv" class="text-center">&nbsp;</div>
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="#">忘记密码?</a>
+                                <a class="small" href="{{ url_for('reset') }}">忘记密码?</a>
                             </div>
                             <div class="text-center">
                                 <a class="small" href="{{ url_for('login') }}">已有账号？ 登录!</a>
@@ -84,43 +92,101 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+    <script src="https://cdn.bootcss.com/layer/2.2/layer.js"></script>
+    <script src="https://cdn.bootcss.com/layer/2.2/extend/layer.ext.js"></script>
     <script>
+        function checkPwd(pwd){
+            var reg =/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,20}$/
+            var re = new RegExp(reg)
+            if (re.test(pwd)) {
+                return true;
+            }else{
+                return false;
+            }
+        }
+        function checkPassword(password1, password2){
+            var msgDiv = document.getElementById('msgDiv');
+            let childList = msgDiv.getElementsByTagName('span');
+            for(var i = childList.length-1; i >= 0; i--){
+                msgDiv.removeChild(childList[i]);
+            }
+            if(password1 != password2){
+                var errorSpan = document.createElement('span');
+                errorSpan.className="text-danger text-xs";
+                errorSpan.innerHTML="两次输入密码不一致，请检查并重新输入！";
+                msgDiv.appendChild(errorSpan);
+                return false;
+            }else{
+                if(checkPwd(password1) == false){
+                    var errorSpan = document.createElement('span');
+                    errorSpan.className="text-danger text-xs";
+                    errorSpan.innerHTML="密码为空或格式不符合要求，请检查并重新输入！";
+                    msgDiv.appendChild(errorSpan);
+                    return false;
+                }else{
+                    msgDiv.innerHTML = " ";
+                    return true;
+                }
+            }
+        }
         function sendRegisterRequest(){
             let user_obj = {'username': $("#inputUsername").val(), 'password': $("#inputPassword").val(),
                             'repeatPassword': $("#repeatPassword").val()};
             var msgDiv = document.getElementById('msgDiv');
-            msgDiv.innerHTML="";
-            $.ajax({
-                type: "POST",
-                url: '{{ url_for('handleRegister') }}',
-                contentType: "application/json;charset=UTF-8",
-                async: true,
-                data: JSON.stringify(user_obj),
-                dataType: "text",
-                success: function(msg){
-                    if(msg.startsWith("error: ")){
-                        var errorSpan = document.createElement('span');
-                        errorSpan.className="text-danger text-xs";
-                        errorSpan.innerHTML=msg.substring(msg.indexOf(':')+1);
-                        msgDiv.appendChild(errorSpan);
-                    }else{
-                        var successSpan = document.createElement('span');
-                        successSpan.className="text-success text-xs";
-                        successSpan.innerHTML="注册成功，跳转至登录页面！";
-                        msgDiv.appendChild(successSpan);
-                        setTimeout(function(){
-                            $("#registerForm").submit();
-                        },500);
+            {# 加上邮箱格式验证 #}
+            let email = $('#inputUsername').val();
+            {# 做email格式检查,如果格式对，再发到后端，若不对则在前端显示提示 #}
+            var reg01 = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+            if(email != ""){
+                if (reg01.test(email)) {
+                    {# 前端检查：对密码格式进行规定，至少8位，包含数字和字母，另外就是两个框的内容一致 #}
+                    if(checkPassword($("#inputPassword").val(),$("#repeatPassword").val())){
+                        {#alert('success')#}
+                        $.ajax({
+                        type: "POST",
+                        url: '{{ url_for('handleRegister') }}',
+                        contentType: "application/json;charset=UTF-8",
+                        async: true,
+                        data: JSON.stringify(user_obj),
+                        dataType: "text",
+                        success: function(msg){
+                            msgDiv.innerHTML="";
+                            if(msg.startsWith("error: ")){
+                                var errorSpan = document.createElement('span');
+                                errorSpan.className="text-danger text-xs";
+                                errorSpan.innerHTML=msg.substring(msg.indexOf(':')+1);
+                                msgDiv.appendChild(errorSpan);
+                            }else{
+                                var successSpan = document.createElement('span');
+                                successSpan.className="text-success text-xs";
+                                successSpan.innerHTML="注册成功，跳转至登录页面！";
+                                msgDiv.appendChild(successSpan);
+                                setTimeout(function(){
+                                    $("#registerForm").submit();
+                                },500);
+                                }
+                            },
+                            error: function (err){
+                                console.log(err);
+                                var errorSpan = document.createElement('span');
+                                errorSpan.className="text-danger text-xs";
+                                errorSpan.innerHTML="注册失败，请重试！"
+                                msgDiv.appendChild(errorSpan);
+                            }
+                        });
                     }
-                },
-                error: function (err){
-                    console.log(err);
-                    var errorSpan = document.createElement('span');
-                    errorSpan.className="text-danger";
-                    errorSpan.innerHTML="注册失败，请重试！"
-                    msgDiv.appendChild(errorSpan);
+                } else {
+                    layer.msg('请输入正确邮箱', {
+                        icon: 5,
+                        time: 1000
+                    });
                 }
-            });
+            }else{
+                layer.msg('邮箱地址为空！',{
+                    icon: 5,
+                    time: 1000
+                })
+            }
         }
         $(window).on("load",function () {
             var rbtn = document.getElementById('registerBtn');

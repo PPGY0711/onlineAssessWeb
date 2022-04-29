@@ -35,7 +35,7 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block">
+                            <div class="col-lg-6 d-none d-lg-flex">
                                 <img src="{{ url_for('static', filename='img/bg_arch.jpeg') }}" class="bg-login-image">
                             </div>
                             <div class="col-lg-6">
@@ -46,26 +46,26 @@
                                     <form id="loginForm" class="user" name="login" action="{{ url_for("login") }}" method="POST">
                                         <div class="form-group">
                                             <input type="text" name="username" class="form-control form-control-user"
-                                                id="inputUsername" aria-describedby="usernameHelp"
-                                                placeholder="Username">
+                                                id="inputUsername" aria-describedby="usernameHelp" value="{{ uname }}"
+                                                placeholder="请输入邮箱">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" name="password" class="form-control form-control-user"
-                                                id="inputPassword" placeholder="Password">
+                                                id="inputPassword" placeholder="请输入密码">
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" name="remember"  class="custom-control-input" id="customCheck">
+                                                <input id="customCheck" name="ck" type="checkbox" class="custom-control-input" value="1">
                                                 <label class="custom-control-label" for="customCheck">记住我</label>
                                             </div>
                                         </div>
                                         <input id="loginBtn" type="button" class="btn btn-primary btn-user btn-block" value="登录">
                                         {{ form.csrf_token }}
+                                        <div id="msgDiv" class="text-center">&nbsp;</div>
                                     </form>
-                                    <div id="msgDiv" class="text-center"></div>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="#">忘记密码？</a>
+                                        <a class="small" href="{{ url_for('reset') }}">忘记密码？</a>
                                     </div>
                                     <div class="text-center">
                                         <a class="small" href="{{ url_for('register') }}">创建用户</a>
@@ -93,9 +93,9 @@
     <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
     <script>
         function sendLoginRequest(){
-            let user_obj = {'username': $("#inputUsername").val(), 'password': $("#inputPassword").val()};
+            let user_obj = {'username': $("#inputUsername").val(), 'password': $("#inputPassword").val(), 'remember': $("#customCheck:checked").val()};
+            console.log(user_obj)
             var msgDiv = document.getElementById('msgDiv');
-            msgDiv.innerHTML="";
             $.ajax({
                 type: "POST",
                 url: '{{ url_for('handleLogin') }}',
@@ -104,6 +104,7 @@
                 data: JSON.stringify(user_obj),
                 dataType: "text",
                 success: function(msg){
+                    msgDiv.innerHTML="";
                     if(msg.startsWith("error: ")){
                         var errorSpan = document.createElement('span');
                         errorSpan.className="text-danger text-xs";
